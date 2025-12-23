@@ -1,0 +1,95 @@
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
+import Loader from "../components/shared/loader/Loader";
+
+const SignIn = () => {
+  const { login } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await axios.post("http://localhost:5000/api/v1/User/login", {
+        email,
+        password,
+      });
+      login(res.data.token, res.data.user);
+      navigate("/dashboard");
+    } catch (error) {
+      alert("Invalid Credentials");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 relative">
+      {/* Overlay loader */}
+      {loading && (
+        <div className="absolute inset-0 bg-white/70 flex justify-center items-center z-10">
+          <Loader />
+        </div>
+      )}
+
+      <div
+        className={`bg-white shadow-lg rounded-2xl p-8 w-full max-w-md text-center transition-all duration-300 ${
+          loading ? "opacity-60 pointer-events-none" : "opacity-100"
+        }`}
+      >
+        <h1 className="text-4xl font-bold text-blue-700 mb-2 tracking-wide">
+          Tikko
+        </h1>
+        <h2 className="text-lg text-gray-600 mb-6 font-medium">
+          Sign in to your account
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email address"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={loading}
+            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
+            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
+          >
+            {loading ? "Signing In..." : "Sign In"}
+          </button>
+        </form>
+
+        <p className="mt-4 text-gray-600">
+          Don’t have an account?{" "}
+          <Link
+            to="/signup"
+            className="text-blue-600 font-semibold hover:underline"
+          >
+            Sign Up
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default SignIn;
