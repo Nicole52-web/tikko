@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/shared/loader/Loader";
 import {AuthContext} from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 
 
 
@@ -13,6 +14,7 @@ const EventDetails = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -35,6 +37,7 @@ const EventDetails = () => {
       } catch (err) {
         console.error("Error fetching event details:", err);
         setError("Failed to load event");
+        showToast("Failed to load event details.", "error");
       } finally {
         setLoading(false);
       }
@@ -97,7 +100,7 @@ const EventDetails = () => {
           {/* Buttons */}
           <div className="flex flex-wrap gap-4 mt-6">
             <button
-              onClick={() => alert("Booking feature coming soon!")}
+              onClick={() => showToast("Booking feature coming soon!", "info")}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
             >
               🎟️ Book Ticket

@@ -91,28 +91,31 @@ const handleGetEventById = async (req, res) => {
 };
 
 // Update Event
-const handleUpdateEvent = async (id, fields) => {
-  const {
-    eventName,
-    location,
-    place,
-    date,
-    ticketPrice,
-    category,
-    other,
-    description,
-    posterFile,
-  } = fields;
+const handleUpdateEvent = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const existing = await getEventById(id);
+    if (!existing) return res.status(404).json({ message: "Event not found" });
 
-  const result = await pool.query(
-    `UPDATE events
-     SET eventname = $1, location = $2, place = $3, date = $4,
-         ticketprice = $5, category = $6, other = $7, description = $8, posterfile = $9
-     WHERE id = $10
-     RETURNING *`,
-    [eventName, location, place, date, ticketPrice, category, other, description, posterFile, id]
-  );
-  return result.rows[0];
+    const posterFile = req.file ? `/uploads/${req.file.filename}` : existing.posterfile;
+
+    const updated = await updateEvent(id, {
+      eventName: req.body.eventName ?? existing.eventname,
+      location: req.body.location ?? existing.location,
+      place: req.body.place ?? existing.place,
+      date: req.body.date ?? existing.date,
+      ticketPrice: req.body.ticketPrice ?? existing.ticketprice,
+      category: req.body.category ?? existing.category,
+      other: req.body.other ?? existing.other,
+      description: req.body.description ?? existing.description,
+      posterFile,
+    });
+
+    res.json({ message: "Event updated successfully", event: updated });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating event" });
+  }
 };
 
 
@@ -123,8 +126,8 @@ const handleDeleteEvent = async (req, res) => {
     const event = await getEventById(id);
     if (!event) return res.status(404).json({ message: "Event not found" });
 
-    if (event.posterFile) {
-      const filePath = path.join(process.cwd(), "uploads", path.basename(event.posterFile));
+    if (event.posterfile) {
+      const filePath = path.join(process.cwd(), "uploads", path.basename(event.posterfile));
       if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     }
 

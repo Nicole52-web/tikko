@@ -22,6 +22,11 @@ const faqs = [
     answer:
       "We offer a free tier with limited features. You can upgrade anytime for more advanced functionality.",
   },
+  {
+    question: "How do I post my event",
+    answer:
+      "Go to the Sign up page, Make sure you check the sign up as an Event Organizer Checkbox while registering",
+  },
 ];
 
 const Faqs = () => {

@@ -1,15 +1,18 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
+import { useToast } from "../context/ToastContext";
 
 const Profile = () => {
   const { user, token } = useContext(AuthContext);
+  const { showToast } = useToast();
   const [formData, setFormData] = useState({
     firstName: user?.firstname || "",
     lastName: user?.lastname || "",
     email: user?.email || "",
   });
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -19,17 +22,20 @@ const Profile = () => {
   };
 
   const handleSave = async () => {
+    setLoading(true);
     try {
       await axios.put(
         "http://localhost:5000/api/v1/User/update",
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert("Profile updated successfully!");
+      showToast("Profile updated successfully!", "success");
       setIsEditing(false);
     } catch (err) {
       console.error("Update error", err);
-      alert("Failed to update profile");
+      showToast("Failed to update profile", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,9 +109,12 @@ const Profile = () => {
           <>
             <button
               onClick={handleSave}
-              className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-sm transition"
+              disabled={loading}
+              className={`bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-sm transition ${
+                loading ? "opacity-60 cursor-not-allowed" : ""
+              }`}
             >
-              Save Changes
+              {loading ? "Saving..." : "Save Changes"}
             </button>
             <button
               onClick={() => setIsEditing(false)}

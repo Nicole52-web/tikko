@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import Loader from "../components/shared/loader/Loader";
+import { useToast } from "../context/ToastContext";
 
 const SignIn = () => {
   const { login } = useContext(AuthContext);
+  const { showToast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,9 +22,10 @@ const SignIn = () => {
         password,
       });
       login(res.data.token, res.data.user);
+      showToast("Logged in successfully", "success");
       navigate("/dashboard");
     } catch (error) {
-      alert("Invalid Credentials");
+      showToast("Invalid credentials", "error");
     } finally {
       setLoading(false);
     }

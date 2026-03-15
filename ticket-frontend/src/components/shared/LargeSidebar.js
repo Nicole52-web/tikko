@@ -14,6 +14,8 @@ const LargeSidebar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const role = user?.role;
+
   const handleLogout = () => {
     logout();
     navigate("/signin");
@@ -47,70 +49,83 @@ const LargeSidebar = () => {
             <PiUserFill className="text-xl" /> Profile
           </NavLink>
 
-          <NavLink
-            to="/dashboard/book-ticket"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-              }`
-            }
-          >
-            <LuTicketCheck className="text-xl" /> Book Ticket
-          </NavLink>
 
-          <NavLink
-            to="/dashboard/post-event"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-              }`
-            }
-          >
-            <RiFunctionAddFill className="text-xl" /> Post Event
-          </NavLink>
+          {/* APPLICANT LINKS */}
+  {role === "applicant" && (
+    <>
+      <NavLink
+        to="/dashboard/book-ticket"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <LuTicketCheck className="text-xl" /> Book Ticket
+      </NavLink>
 
-          <NavLink
-            to="/dashboard/events"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-              }`
-            }
-          >
-            <FaGlassCheers className="text-xl" /> My Events
-          </NavLink>
+      <NavLink
+        to="/dashboard/history"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <RiFileHistoryFill className="text-xl" /> History
+      </NavLink>
 
-          <NavLink
-            to="/dashboard/history"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-              }`
-            }
-          >
-            <RiFileHistoryFill className="text-xl" /> History
-          </NavLink>
+      <NavLink
+        to="/dashboard/refund"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <RiRefund2Line className="text-xl" /> Refund
+      </NavLink>
+    </>
+  )}
 
-          <NavLink
-            to="/dashboard/refund"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-              }`
-            }
-          >
-            <RiRefund2Line className="text-xl" /> Refund
-          </NavLink>
+  {/* ORGANIZER LINKS */}
+  {role === "organizer" && (
+    <>
+      <NavLink
+        to="/dashboard/post-event"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <RiFunctionAddFill className="text-xl" /> Post Event
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/events"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <FaGlassCheers className="text-xl" /> My Events
+      </NavLink>
+    </>
+  )}
+
+          
         </nav>
       </div>
 

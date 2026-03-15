@@ -1,6 +1,11 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
+const authorizeRoles = require("../middleware/roleMiddleware");
+
+
+
+
 const {
   handleCreateEvent,
   handleGetEvents,
@@ -21,10 +26,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Routes
-router.post("/create-event",auth, upload.single("posterFile"), handleCreateEvent);
+router.post("/create-event",auth, authorizeRoles("organizer","admin"),upload.single("posterFile"), handleCreateEvent);
 router.get("/my-events", auth,handleGetEvents);
-router.get("/my-event/:id", auth, handleGetEventById);
-router.put("/:id", upload.single("posterFile"), handleUpdateEvent);
+router.get("/my-event/:id", auth, authorizeRoles("organizer", "admin"),handleGetEventById);
+router.put("/:id", auth, upload.single("posterFile"), handleUpdateEvent);
 router.delete("/:id", auth, handleDeleteEvent);
 router.get("/all-events",handleGetAllEvents);
 

@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/shared/loader/Loader";
+import { useToast } from "../context/ToastContext";
 
 const SignUp = () => {
+  const { showToast } = useToast();
+  const [role, setRole] = useState("applicant");
   const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -19,21 +22,22 @@ const SignUp = () => {
       const response = await axios.post(
         "http://localhost:5000/api/v1/User/createuser",
         {
-          firstName,
-          lastName,
+          firstname: firstName,
+          lastname: lastName,
           email,
           password,
+          role,
         }
       );
 
       if (response.status === 200) {
-        console.log("User Created Successfully");
+        showToast("Account created successfully. Please sign in.", "success");
         navigate("/signin");
       } else {
         throw new Error("Unexpected Error");
       }
     } catch (error) {
-      alert("Failed to create account. Try again.");
+      showToast("Failed to create account. Try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -105,6 +109,24 @@ const SignUp = () => {
             disabled={loading}
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
           />
+          <div className="flex items-center gap-2 justify-start">
+            <input
+            type="checkbox"
+            id="organizer"
+            checked={ role === "organizer"}
+            onChange={(e) => 
+              setRole(e.target.checked ? "organizer" : "applicant")
+            }
+            disabled={loading}
+            className="w-4 h-4 text-blue-600"
+            />
+            <label htmlFor="organizer" className="text-gray-700 text-sm cursor-pointer">
+              Sign up as an <span className="font-semibold">Event Organizer</span>
+            </label>
+
+             
+  
+          </div>
 
           <button
             type="submit"

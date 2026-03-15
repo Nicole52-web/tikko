@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { useToast } from '../context/ToastContext';
+import Loader from '../components/shared/loader/Loader';
 
 const EventPost = () => {
+    const { showToast } = useToast();
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -51,7 +54,7 @@ const EventPost = () => {
   }
 );
 
-      alert("Event created successfully!");
+      showToast("Event created successfully!", "success");
       console.log(res.data);
 
       // Reset form
@@ -69,15 +72,24 @@ const EventPost = () => {
       setStep(1);
     } catch (error) {
       console.error(error);
-      alert("Failed to create event. Try again!");
+      showToast("Failed to create event. Try again!", "error");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-  <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-50 to-white p-6">
-      <div className="w-full max-w-2xl bg-white shadow-2xl rounded-2xl p-8 border border-blue-100">
+  <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-50 to-white p-6 relative">
+      {/* Overlay loader */}
+      {loading && (
+        <div className="absolute inset-0 bg-white/70 flex justify-center items-center z-10">
+          <Loader />
+        </div>
+      )}
+
+      <div className={`w-full max-w-2xl bg-white shadow-2xl rounded-2xl p-8 border border-blue-100 ${
+        loading ? "opacity-60 pointer-events-none" : "opacity-100"
+      }`}>
         <h2 className="text-2xl font-bold text-blue-600 text-center mb-6">
           Create Your Event
         </h2>

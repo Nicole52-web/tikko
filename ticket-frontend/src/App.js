@@ -1,17 +1,21 @@
-import './App.css';
-import Landing from './pages/Landing';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import SignUp from './pages/SignUp';
-import SignIn from './pages/SignIn';
-import Faqs from './pages/Faqs';
-import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from './components/shared/ProtectedRoute';
-import DashboardLayout from './layout/DashboardLayout';
-import Profile from './pages/Profile';
-import EventPost from './pages/EventPost';
-import Events from './pages/Events';
-import EventDetails from './pages/EventDetails'
+import "./App.css";
+import Landing from "./pages/Landing";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
+import Faqs from "./pages/Faqs";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/shared/ProtectedRoute";
+import DashboardLayout from "./layout/DashboardLayout";
+import Profile from "./pages/Profile";
+import EventPost from "./pages/EventPost";
+import Events from "./pages/Events";
+import EventDetails from "./pages/EventDetails";
+import EventEdit from "./pages/EventEdit";
+import BookTicket from "./pages/BookTicket";
+import Payment from "./pages/Payment";
+import { ToastProvider } from "./context/ToastContext";
 
 function AppContent() {
   const location = useLocation();
@@ -24,29 +28,23 @@ function AppContent() {
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path='/faqs' element={<Faqs/>} />
+        <Route path="/faqs" element={<Faqs />} />
 
         <Route
-          path='/dashboard'
+          path="/dashboard"
           element={
             <ProtectedRoute>
-              <DashboardLayout/>
+              <DashboardLayout />
             </ProtectedRoute>
           }
         >
-          <Route index element={<Profile/>}/>
-          <Route 
-          path='post-event'
-          element ={<EventPost/>}
-          />
-          <Route 
-          path='events'
-          element ={<Events/>}
-          />
-          <Route 
-          path='event/:id'
-          element ={<EventDetails/>}
-          />
+          <Route index element={<Profile />} />
+          <Route path="post-event" element={<EventPost />} />
+          <Route path="events" element={<Events />} />
+          <Route path="event/:id" element={<EventDetails />} />
+          <Route path="event/:id/edit" element={<EventEdit />} />
+          <Route path="book-ticket" element={<BookTicket />} />
+          <Route path="payment/:eventId" element={<Payment />} />
         </Route>
       </Routes>
     </>
@@ -56,9 +54,11 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <ToastProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </ToastProvider>
     </AuthProvider>
   );
 }

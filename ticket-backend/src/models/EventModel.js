@@ -52,7 +52,7 @@ const updateEvent = async (id, fields) => {
   const result = await pool.query(
     `UPDATE events
      SET eventname = $1, location = $2, place = $3, date = $4,
-         ticketprice = $5, category = $6, other = $7, description = $8, posterurl = $9
+         ticketprice = $5, category = $6, other = $7, description = $8, posterfile = $9
      WHERE id = $10
      RETURNING *`,
     [eventName, location, place, date, ticketPrice, category, other, description, posterFile, id]

@@ -5,12 +5,16 @@ const jwt = require("jsonwebtoken")
 
 const addUser = async (req , res ) => {
     try {
-        const {firstName, lastName, email, password} = req.body;
+        const {firstName, lastName, email, password, role} = req.body;
 
 
         //if user exists
         const existingUser = await User.findUserByEmail(email);
         if (existingUser) return res.status(400).json({ msg: "User already exists"});
+
+
+        const allowedRoles = ["admin", "organizer", "applicant"];
+        const userRole = allowedRoles.includes(role) ? role : "applicant";
 
         //hash
         const salt = await bcrypt.genSalt(10);
@@ -18,7 +22,7 @@ const addUser = async (req , res ) => {
 
 
         //saving user
-        const newUser = await User.createUser(firstName,lastName,email, hashedPassword);
+        const newUser = await User.createUser(firstName,lastName,email, hashedPassword, userRole);
         res.json(newUser);
     } catch (error) {
         console.log(error.message);
@@ -40,7 +44,7 @@ const loginUser = async (req, res) => {
 
         //generate token
         const token = jwt.sign(
-            { id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email},
+            { id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email, role: user.role},
             process.env.JWT_SECRET,
             { expiresIn: "1h"}
         );
@@ -52,6 +56,7 @@ const loginUser = async (req, res) => {
         firstname: user.firstname,
         lastname: user.lastname,
         email: user.email,
+        role: user.role,
       },
     });
     } catch (error) {
