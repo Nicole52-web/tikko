@@ -11,6 +11,7 @@ import DashboardLayout from "./layout/DashboardLayout";
 import Profile from "./pages/Profile";
 import EventPost from "./pages/EventPost";
 import Events from "./pages/Events";
+import PublicEvents from "./pages/PublicEvents";
 import EventDetails from "./pages/EventDetails";
 import EventEdit from "./pages/EventEdit";
 import BookTicket from "./pages/BookTicket";
@@ -26,6 +27,7 @@ function AppContent() {
       {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/events" element={<PublicEvents />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/faqs" element={<Faqs />} />

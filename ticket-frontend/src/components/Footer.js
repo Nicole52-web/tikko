@@ -32,7 +32,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="hover:text-blue-200 transition duration-200"
+                  className="hover:text-white transition duration-200"
                 >
                   Events
                 </a>
@@ -40,7 +40,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="hover:text-blue-200 transition duration-200"
+                  className="hover:text-white transition duration-200"
                 >
                   Sign In
                 </a>
@@ -48,7 +48,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="hover:text-blue-200 transition duration-200"
+                  className="hover:text-white transition duration-200"
                 >
                   Create Account
                 </a>
@@ -63,7 +63,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="hover:text-blue-200 transition duration-200"
+                  className="hover:text-white transition duration-200"
                 >
                   Help
                 </a>
@@ -71,7 +71,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="hover:text-blue-200 transition duration-200"
+                  className="hover:text-white transition duration-200"
                 >
                   FAQs
                 </a>
@@ -79,7 +79,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#"
-                  className="hover:text-blue-200 transition duration-200"
+                  className="hover:text-white transition duration-200"
                 >
                   Contact Us
                 </a>
@@ -90,25 +90,25 @@ const Footer = () => {
             <div className="flex space-x-5 text-2xl">
               <a
                 href="#"
-                className="hover:text-blue-300 transition transform hover:scale-110"
+                className="hover:text-white transition transform hover:scale-110"
               >
                 <IoLogoInstagram />
               </a>
               <a
                 href="#"
-                className="hover:text-blue-300 transition transform hover:scale-110"
+                className="hover:text-white transition transform hover:scale-110"
               >
                 <FaTiktok />
               </a>
               <a
                 href="#"
-                className="hover:text-blue-300 transition transform hover:scale-110"
+                className="hover:text-white transition transform hover:scale-110"
               >
                 <FaXTwitter />
               </a>
               <a
                 href="#"
-                className="hover:text-blue-300 transition transform hover:scale-110"
+                className="hover:text-white transition transform hover:scale-110"
               >
                 <FaFacebookF />
               </a>
