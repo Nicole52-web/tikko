@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
+import Footer from "../components/Footer";
 
 const faqs = [
   {
@@ -37,7 +38,12 @@ const Faqs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50 flex flex-col items-center py-12 px-4">
+  <div>
+
+      <div
+      className="min-h-screen bg-blue-50 flex flex-col items-center pb-12 px-4"
+      style={{ paddingTop: 120 }}
+    >
       <h1 className="text-3xl sm:text-4xl font-bold text-blue-700 mb-8 text-center">
         Frequently Asked Questions
       </h1>
@@ -71,6 +77,9 @@ const Faqs = () => {
         ))}
       </div>
     </div>
+
+    <Footer/>
+  </div>
   );
 };
 

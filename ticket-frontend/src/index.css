@@ -1,2 +1,19 @@
 @import "tailwindcss";
 
+html,
+body {
+  font-family: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+/* Keep navbar height consistent even if the logo image is large */
+.navbar .navbar-logo {
+  height: 56px;
+  width: auto;
+}
+
+.navbar.navbar-expand-md {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+

@@ -66,6 +66,87 @@
     --default-mono-font-family: var(--font-mono);
   }
 }
+@layer theme {
+  :root, :host {
+    --app-primary: #0A1359;
+    --app-secondary: #F3631B;
+    --app-primary-dark: #070E44;
+    --app-secondary-dark: #D55317;
+
+    --color-blue-50: #E7E9F7;
+    --color-blue-100: #CFCFEF;
+    --color-blue-300: #7E86C6;
+    --color-blue-400: #4F58A6;
+    --color-blue-500: #2E3890;
+    --color-blue-600: var(--app-primary);
+    --color-blue-700: var(--app-primary-dark);
+    --color-blue-900: #040725;
+
+    --bs-primary: var(--app-primary);
+    --bs-primary-rgb: 10, 19, 89;
+    --bs-secondary: var(--app-secondary);
+    --bs-secondary-rgb: 243, 99, 27;
+    --bs-link-color: var(--app-primary);
+    --bs-link-hover-color: #070E44;
+  }
+}
+@layer utilities {
+  .bg-app-primary {
+    background-color: var(--app-primary) !important;
+  }
+  .bg-app-secondary {
+    background-color: var(--app-secondary) !important;
+  }
+  .text-app-primary {
+    color: var(--app-primary) !important;
+  }
+  .text-app-secondary {
+    color: var(--app-secondary) !important;
+  }
+  .border-app-primary {
+    border-color: var(--app-primary) !important;
+  }
+  .border-app-secondary {
+    border-color: var(--app-secondary) !important;
+  }
+  .hover\\:bg-app-primary-dark:hover {
+    background-color: var(--app-primary-dark) !important;
+  }
+  .hover\\:bg-app-secondary-dark:hover {
+    background-color: var(--app-secondary-dark) !important;
+  }
+  .hover\\:text-app-secondary:hover {
+    color: var(--app-secondary) !important;
+  }
+}
+
+/* Bootstrap: make "secondary" use app orange (Bootstrap defaults to gray for secondary buttons) */
+.btn-secondary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--app-secondary);
+  --bs-btn-border-color: var(--app-secondary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--app-secondary-dark);
+  --bs-btn-hover-border-color: var(--app-secondary-dark);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--app-secondary-dark);
+  --bs-btn-active-border-color: var(--app-secondary-dark);
+}
+
+.btn-outline-secondary {
+  --bs-btn-color: var(--app-secondary);
+  --bs-btn-border-color: var(--app-secondary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--app-secondary);
+  --bs-btn-hover-border-color: var(--app-secondary);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--app-secondary-dark);
+  --bs-btn-active-border-color: var(--app-secondary-dark);
+}
+
+.text-bg-secondary {
+  --bs-secondary-rgb: 243, 99, 27;
+}
 @layer base {
   *, ::after, ::before, ::backdrop, ::file-selector-button {
     box-sizing: border-box;
@@ -1117,6 +1198,29 @@
 @property --tw-tracking {
   syntax: "*";
   inherits: false;
+}
+
+/* Custom animations for scroll effects */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-up.animate {
+  opacity: 1;
+  transform: translateY(0);
 }
 @property --tw-shadow {
   syntax: "*";

@@ -1,23 +1,23 @@
 import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import LogoTicket from "../assests/logoticket.png";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navLinkClassName = ({ isActive }) => `nav-link${isActive ? " active" : ""}`;
+  const navLinkClassName = ({ isActive }) => `nav-link text-white${isActive ? " active" : ""}`;
 
   return (
-    <nav className="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
-      <div className="container">
-        <Link to="/" className="navbar-brand fw-bold d-flex align-items-center gap-2">
-          <span
-            className="d-inline-flex align-items-center justify-content-center rounded-3 bg-primary text-white"
-            style={{ width: 36, height: 36 }}
-          >
-            T
-          </span>
+    <nav className="navbar navbar-expand-md navbar-light bg-blue-700 shadow-sm fixed-top">
+      <div className="container-fluid px-3">
+        <Link to="/" className="navbar-brand fw-bold text-white d-flex align-items-center gap-2">
+          <img
+            src={LogoTicket}
+            alt="Tikko"
+            className="navbar-logo d-inline-block object-contain"
+          />
           Tikko
         </Link>
 
@@ -31,35 +31,41 @@ const Navbar = () => {
           <span className="navbar-toggler-icon" />
         </button>
 
-        <div className={`collapse navbar-collapse${mobileOpen ? " show" : ""}`}>
-          <ul className="navbar-nav me-auto mb-2 mb-md-0">
-            <li className="nav-item">
+        <div className={`collapse navbar-collapse justify-content-end${mobileOpen ? " show" : ""}`}>
+          <ul className="navbar-nav mb-2 mb-md-0">
+            <li className="nav-item font-weight-bold">
               <NavLink to="/events" className={navLinkClassName} onClick={() => setMobileOpen(false)}>
                 Events
               </NavLink>
             </li>
-            <li className="nav-item">
+            <li className="nav-item font-weight-bold">
               <NavLink to="/faqs" className={navLinkClassName} onClick={() => setMobileOpen(false)}>
                 FAQs
               </NavLink>
             </li>
           </ul>
 
-          <div className="d-flex gap-2">
+          <div className="d-flex align-items-center gap-2 ms-md-3">
             {!user ? (
               <>
-                <Link to="/signin" className="btn btn-outline-primary" onClick={() => setMobileOpen(false)}>
+                <Link to="/signin" className="nav-link text-white px-2" onClick={() => setMobileOpen(false)}>
                   Sign In
                 </Link>
-                <Link to="/signup" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
+                <Link to="/signup" className="nav-link text-white px-2" onClick={() => setMobileOpen(false)}>
                   Sign Up
                 </Link>
+                <a href="mailto:booktikko@gmail.com" className="btn btn-secondary ms-2" onClick={() => setMobileOpen(false)}>
+                  Contact Us
+                </a>
               </>
             ) : (
               <>
                 <Link to="/dashboard" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
                   Dashboard
                 </Link>
+                <a href="mailto:booktikko@gmail.com" className="btn btn-secondary" onClick={() => setMobileOpen(false)}>
+                  Contact Us
+                </a>
                 <button
                   type="button"
                   className="btn btn-outline-secondary"

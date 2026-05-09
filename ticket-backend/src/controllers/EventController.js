@@ -71,10 +71,10 @@ const handleGetEvents = async (req, res) => {
 
 const handleGetAllEvents = async (req, res) => {
   try {
-    
     const events = await getAllEvents();
-    res.json({events});
+    res.json({ events });
   } catch (error) {
+    console.error("handleGetAllEvents:", error);
     res.status(500).json({ message: "Error fetching events" });
   }
 };

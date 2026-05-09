@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../components/shared/loader/Loader";
 import { useToast } from "../context/ToastContext";
 import { AuthContext } from "../context/AuthContext";
+import { apiUrl, mediaUrl } from "../config/api";
+import Footer from "../components/Footer";
 
 const PublicEvents = () => {
   const [events, setEvents] = useState([]);
@@ -28,8 +30,13 @@ const PublicEvents = () => {
     const fetchEvents = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:5000/api/v1/Event/all-events");
-        const eventData = res.data.events || [];
+        const res = await axios.get(apiUrl("/api/v1/Event/all-events"));
+        const payload = res.data;
+        const eventData = Array.isArray(payload?.events)
+          ? payload.events
+          : Array.isArray(payload)
+            ? payload
+            : [];
         setEvents(eventData);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -196,7 +203,10 @@ const PublicEvents = () => {
   }
 
   return (
-    <div className="bg-light min-vh-100" style={{ paddingTop: 80 }}>
+   <div>
+
+
+ <div className="bg-light min-vh-100" style={{ paddingTop: 80 }}>
       <div className="container py-4">
         <div className="bg-white border rounded-4 shadow-sm p-4 p-md-5 mb-4">
           <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-end justify-content-between gap-3">
@@ -403,7 +413,7 @@ const PublicEvents = () => {
               const imageUrl = event.posterfile
                 ? event.posterfile.startsWith("http")
                   ? event.posterfile
-                  : `http://localhost:5000${event.posterfile}`
+                  : mediaUrl(event.posterfile)
                 : "https://via.placeholder.com/600x400?text=No+Poster+Available";
 
               return (
@@ -442,7 +452,7 @@ const PublicEvents = () => {
                         <div className="fw-bold text-primary">Ksh {event.ticketprice}</div>
                         <button
                           type="button"
-                          className="btn btn-primary"
+                          className="btn btn-secondary"
                           onClick={(e) => {
                             e.stopPropagation();
                             if (!user) {
@@ -466,6 +476,8 @@ const PublicEvents = () => {
         )}
       </div>
     </div>
+    <Footer/>
+   </div>
   );
 };
 

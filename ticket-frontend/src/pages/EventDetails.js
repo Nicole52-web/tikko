@@ -101,7 +101,7 @@ const EventDetails = () => {
           <div className="flex flex-wrap gap-4 mt-6">
             <button
               onClick={() => showToast("Booking feature coming soon!", "info")}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+              className="bg-app-secondary hover:bg-app-secondary-dark text-white px-6 py-2 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
             >
               🎟️ Book Ticket
             </button>

@@ -39,7 +39,7 @@ const LargeSidebar = () => {
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+              `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
                 isActive
                   ? "bg-blue-600 text-white"
                   : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
@@ -56,7 +56,7 @@ const LargeSidebar = () => {
       <NavLink
         to="/dashboard/book-ticket"
         className={({ isActive }) =>
-          `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
             isActive
               ? "bg-blue-600 text-white"
               : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
@@ -69,7 +69,7 @@ const LargeSidebar = () => {
       <NavLink
         to="/dashboard/history"
         className={({ isActive }) =>
-          `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
             isActive
               ? "bg-blue-600 text-white"
               : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
@@ -82,7 +82,7 @@ const LargeSidebar = () => {
       <NavLink
         to="/dashboard/refund"
         className={({ isActive }) =>
-          `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
             isActive
               ? "bg-blue-600 text-white"
               : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
@@ -100,7 +100,7 @@ const LargeSidebar = () => {
       <NavLink
         to="/dashboard/post-event"
         className={({ isActive }) =>
-          `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
             isActive
               ? "bg-blue-600 text-white"
               : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
@@ -113,7 +113,7 @@ const LargeSidebar = () => {
       <NavLink
         to="/dashboard/events"
         className={({ isActive }) =>
-          `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
             isActive
               ? "bg-blue-600 text-white"
               : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"

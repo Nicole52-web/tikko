@@ -43,7 +43,7 @@ const Payment = () => {
           Please go back to the Book Ticket page and try again.
         </p>
         <button
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="px-4 py-2 bg-app-secondary hover:bg-app-secondary-dark text-white rounded-lg"
           onClick={() => navigate("/dashboard/book-ticket")}
         >
           Back to Book Ticket
@@ -229,7 +229,7 @@ const Payment = () => {
           <button
             type="submit"
             disabled={processing}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-60"
+            className="px-6 py-2 bg-app-secondary hover:bg-app-secondary-dark text-white rounded-lg disabled:opacity-60"
           >
             {processing ? "Processing..." : "Pay & Book Ticket"}
           </button>

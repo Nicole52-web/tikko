@@ -25,12 +25,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Routes
+// Routes — register static paths before "/:id" so they are not captured as IDs
+router.get("/all-events", handleGetAllEvents);
 router.post("/create-event",auth, authorizeRoles("organizer","admin"),upload.single("posterFile"), handleCreateEvent);
 router.get("/my-events", auth,handleGetEvents);
 router.get("/my-event/:id", auth, authorizeRoles("organizer", "admin"),handleGetEventById);
 router.put("/:id", auth, upload.single("posterFile"), handleUpdateEvent);
 router.delete("/:id", auth, handleDeleteEvent);
-router.get("/all-events",handleGetAllEvents);
 
 module.exports = router;

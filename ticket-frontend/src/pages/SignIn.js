@@ -4,6 +4,8 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import Loader from "../components/shared/loader/Loader";
 import { useToast } from "../context/ToastContext";
+import AuthBackgroundCarousel from "../components/AuthBackgroundCarousel";
+import Footer from "../components/Footer";
 
 const SignIn = () => {
   const { login } = useContext(AuthContext);
@@ -32,16 +34,18 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 relative">
+   <div>
+ <div className="relative flex justify-center items-center min-h-screen overflow-hidden pt-24 pb-12 px-4">
+      <AuthBackgroundCarousel />
       {/* Overlay loader */}
       {loading && (
-        <div className="absolute inset-0 bg-white/70 flex justify-center items-center z-10">
+        <div className="absolute inset-0 bg-white/70 flex justify-center items-center z-30">
           <Loader />
         </div>
       )}
 
       <div
-        className={`bg-white shadow-lg rounded-2xl p-8 w-full max-w-md text-center transition-all duration-300 ${
+        className={`relative z-20 bg-white shadow-lg rounded-2xl p-8 w-full max-w-md text-center transition-all duration-300 ${
           loading ? "opacity-60 pointer-events-none" : "opacity-100"
         }`}
       >
@@ -60,7 +64,7 @@ const SignIn = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+            className="w-full px-4 py-2 mb-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
           />
           <input
             type="password"
@@ -69,13 +73,13 @@ const SignIn = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={loading}
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+            className="w-full px-4 py-2 mb-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
+            className="w-50 bg-blue-600 text-white font-semibold py-2 rounded-4 hover:bg-blue-700 transition disabled:opacity-50"
           >
             {loading ? "Signing In..." : "Sign In"}
           </button>
@@ -92,6 +96,8 @@ const SignIn = () => {
         </p>
       </div>
     </div>
+    <Footer/>
+   </div>
   );
 };
 

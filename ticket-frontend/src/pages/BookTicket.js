@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/shared/loader/Loader";
 import { useToast } from "../context/ToastContext";
+import { apiUrl, mediaUrl } from "../config/api";
 
 const BookTicket = () => {
   const { token, user } = useContext(AuthContext);
@@ -16,10 +17,13 @@ const BookTicket = () => {
     const fetchEvents = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(
-          "http://localhost:5000/api/v1/Event/all-events"
-        );
-        const eventData = res.data.events || [];
+        const res = await axios.get(apiUrl("/api/v1/Event/all-events"));
+        const payload = res.data;
+        const eventData = Array.isArray(payload?.events)
+          ? payload.events
+          : Array.isArray(payload)
+            ? payload
+            : [];
         setEvents(eventData);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -70,7 +74,7 @@ const BookTicket = () => {
             const imageUrl = event.posterfile
               ? event.posterfile.startsWith("http")
                 ? event.posterfile
-                : `http://localhost:5000${event.posterfile}`
+                : mediaUrl(event.posterfile)
               : "https://via.placeholder.com/600x400?text=No+Poster+Available";
 
             return (
@@ -102,7 +106,7 @@ const BookTicket = () => {
                   </p>
 
                   <button
-                    className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-60"
+                    className="mt-4 w-full btn btn-secondary py-2 transition disabled:opacity-60"
                     onClick={() => handleGoToPayment(event)}
                   >
                     🎟️ Book Ticket

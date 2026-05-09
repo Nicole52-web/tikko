@@ -31,24 +31,24 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#"
-                  className="hover:text-white transition duration-200"
+                  href="/events"
+                  className="text-white text-decoration-none hover:no-underline hover:text-blue-100 transition duration-200"
                 >
                   Events
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
-                  className="hover:text-white transition duration-200"
+                  href="/signin"
+                  className="text-white text-decoration-none hover:no-underline hover:text-blue-100 transition duration-200"
                 >
                   Sign In
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
-                  className="hover:text-white transition duration-200"
+                  href="/signup"
+                  className="text-white text-decoration-none hover:no-underline hover:text-blue-100 transition duration-200"
                 >
                   Create Account
                 </a>
@@ -59,67 +59,69 @@ const Footer = () => {
           {/* Right Section */}
           <div>
             <h3 className="text-xl font-semibold mb-3">Support</h3>
-            <ul className="space-y-2 mb-4">
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition duration-200"
-                >
-                  Help
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition duration-200"
-                >
-                  FAQs
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition duration-200"
-                >
-                  Contact Us
-                </a>
-              </li>
-            </ul>
+            <div className="flex items-start justify-between gap-6">
+              <ul className="space-y-2 flex-1">
+                <li>
+                  <a
+                    href="#"
+                    className="text-white text-decoration-none hover:no-underline hover:text-blue-100 transition duration-200"
+                  >
+                    Help
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/faqs"
+                    className="text-white text-decoration-none hover:no-underline hover:text-blue-100 transition duration-200"
+                  >
+                    FAQS
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="text-white text-decoration-none hover:no-underline hover:text-blue-100 transition duration-200"
+                  >
+                    Contact Support
+                  </a>
+                </li>
+              </ul>
 
-            {/* Social Icons */}
-            <div className="flex space-x-5 text-2xl">
-              <a
-                href="#"
-                className="hover:text-white transition transform hover:scale-110"
-              >
-                <IoLogoInstagram />
-              </a>
-              <a
-                href="#"
-                className="hover:text-white transition transform hover:scale-110"
-              >
-                <FaTiktok />
-              </a>
-              <a
-                href="#"
-                className="hover:text-white transition transform hover:scale-110"
-              >
-                <FaXTwitter />
-              </a>
-              <a
-                href="#"
-                className="hover:text-white transition transform hover:scale-110"
-              >
-                <FaFacebookF />
-              </a>
+              {/* Social Icons */}
+              <div className="flex justify-end space-x-5 text-2xl text-white flex-none pt-1">
+                <a
+                  href="#"
+                  className="text-white hover:text-blue-100 transition transform hover:scale-110"
+                >
+                  <IoLogoInstagram />
+                </a>
+                <a
+                  href="#"
+                  className="text-white hover:text-blue-100 transition transform hover:scale-110"
+                >
+                  <FaTiktok />
+                </a>
+                <a
+                  href="#"
+                  className="text-white hover:text-blue-100 transition transform hover:scale-110"
+                >
+                  <FaXTwitter />
+                </a>
+                <a
+                  href="#"
+                  className="text-white hover:text-blue-100 transition transform hover:scale-110"
+                >
+                  <FaFacebookF />
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </footer>
 
       {/* Copyright Bar */}
-      <div className="bg-blue-900 text-center text-white py-3 text-sm">
-        <span className="font-semibold">Tikko</span> © 2025 All rights reserved
+      <div className="bg-blue-700 text-center text-white py-3 text-sm">
+        <span className="font-semibold">Tikko</span> © 2026 All rights reserved
       </div>
     </>
   );
