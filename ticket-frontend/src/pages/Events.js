@@ -111,7 +111,7 @@ const Events = () => {
 
                 <div className="mt-4 flex gap-3">
                   <button
-                    className="flex-1 border border-blue-600 text-blue-600 py-2 rounded-lg hover:bg-blue-50 transition"
+                    className="flex-1 border border-blue-600 text-blue-600 py-2  hover:bg-blue-50 transition" style={{ borderRadius: "0.35rem"}}
                     onClick={(e) => {
                       e.stopPropagation();
                       navigate(`/dashboard/event/${event.id}/edit`);
@@ -121,7 +121,7 @@ const Events = () => {
                   </button>
 
                   <button
-                    className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
+                    className="flex-1 bg-red-600 text-white py-2 hover:bg-red-700 transition" style={{ borderRadius: "0.35rem"}}
                     onClick={(e) => handleDelete(e, event.id)}
                   >
                     Delete

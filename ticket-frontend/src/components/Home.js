@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+﻿import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -180,7 +180,9 @@ const Home = () => {
 
         {/* Center Content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center space-y-6 text-center px-4 lg:px-0 fade-in-up">
-          <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm">Trusted by Event Organizers</span>
+          <span className=" text-white px-4 py-1 rounded-full text-sm" style={{ backgroundColor: '#F3631B' }}>
+            Trusted by Event Organizers
+          </span>
 
           <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight">
             Discover Events. Book Tickets. <br />
@@ -195,7 +197,7 @@ const Home = () => {
             <button
               type="button"
               onClick={() => navigate("/events")}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-4 text-lg font-semibold transition"
+              className="text-white px-6 py-3 rounded-4 text-lg font-semibold transition" style={{backgroundColor: "#F3631B", hover: { backgroundColor: "#dd7846" } }}
             >
               Start Exploring →
             </button>

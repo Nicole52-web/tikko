@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import axios from 'axios';
 import { useToast } from '../context/ToastContext';
 import Loader from '../components/shared/loader/Loader';
+import { useNavigate } from "react-router-dom";
 
 const EventPost = () => {
     const { showToast } = useToast();
+    const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -70,6 +72,7 @@ const EventPost = () => {
         posterFile: null,
       });
       setStep(1);
+      navigate("/dashboard/post-event/success");
     } catch (error) {
       console.error(error);
       showToast("Failed to create event. Try again!", "error");
@@ -109,8 +112,8 @@ const EventPost = () => {
               <h3 className="text-lg font-semibold text-blue-500 mb-4">
                 Step 1: Event Details
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <label className="flex flex-col text-sm font-medium text-gray-700">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <label className="flex flex-col gap-1 text-base font-medium text-gray-700">
                   Event Name
                   <input
                     name="eventName"
@@ -119,11 +122,11 @@ const EventPost = () => {
                     value={formData.eventName}
                     onChange={handleChange}
                     required
-                    className="mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-base outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
                   />
                 </label>
 
-                <label className="flex flex-col text-sm font-medium text-gray-700">
+                <label className="flex flex-col gap-1 text-base font-medium text-gray-700">
                   Location
                   <input
                     name="location"
@@ -132,11 +135,11 @@ const EventPost = () => {
                     value={formData.location}
                     onChange={handleChange}
                     required
-                    className="mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-base outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
                   />
                 </label>
 
-                <label className="flex flex-col text-sm font-medium text-gray-700">
+                <label className="flex flex-col gap-1 text-base font-medium text-gray-700">
                   Place
                   <input
                     name="place"
@@ -145,11 +148,11 @@ const EventPost = () => {
                     value={formData.place}
                     onChange={handleChange}
                     required
-                    className="mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-base outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
                   />
                 </label>
 
-                <label className="flex flex-col text-sm font-medium text-gray-700">
+                <label className="flex flex-col gap-1 text-base font-medium text-gray-700">
                   Date
                   <input
                     name="date"
@@ -157,7 +160,7 @@ const EventPost = () => {
                     value={formData.date}
                     onChange={handleChange}
                     required
-                    className="mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-base outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
                   />
                 </label>
               </div>
@@ -166,7 +169,7 @@ const EventPost = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+                  className="bg-blue-600 text-white px-6 py-2  hover:bg-blue-700 transition" style={{ borderRadius: "0.35rem"}}
                 >
                   Next →
                 </button>
@@ -181,8 +184,8 @@ const EventPost = () => {
                 Step 2: Additional Info
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <label className="flex flex-col text-sm font-medium text-gray-700">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <label className="flex flex-col gap-1 text-base font-medium text-gray-700">
                   Ticket Price
                   <input
                     name="ticketPrice"
@@ -191,18 +194,18 @@ const EventPost = () => {
                     value={formData.ticketPrice}
                     onChange={handleChange}
                     required
-                    className="mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-base outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
                   />
                 </label>
 
-                <label className="flex flex-col text-sm font-medium text-gray-700">
+                <label className="flex flex-col gap-1 text-base font-medium text-gray-700">
                   Category
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
                     required
-                    className="mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-base outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
                   >
                     <option value="">-- Select Category --</option>
                     <option>Educational</option>
@@ -217,45 +220,46 @@ const EventPost = () => {
                     <option>Academic & Student</option>
                   </select>
                 </label>
+
+                <label className="flex flex-col gap-1 text-base font-medium text-gray-700 md:col-span-2">
+                  Other
+                  <input
+                    name="other"
+                    placeholder="If not in category list"
+                    type="text"
+                    value={formData.other}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-base outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
+                  />
+                </label>
+
+                <label className="flex flex-col gap-1 text-base font-medium text-gray-700 md:col-span-2">
+                  Description
+                  <textarea
+                    name="description"
+                    placeholder="Describe what the event is about"
+                    rows="5"
+                    value={formData.description}
+                    onChange={handleChange}
+                    required
+                    className="w-full resize-y rounded-lg border border-gray-300 bg-white px-4 py-3 text-base outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
+                  ></textarea>
+                </label>
               </div>
 
-              <label className="flex flex-col text-sm font-medium text-gray-700">
-                Other
-                <input
-                  name="other"
-                  placeholder="If not in category list"
-                  type="text"
-                  value={formData.other}
-                  onChange={handleChange}
-                  className="mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
-                />
-              </label>
-
-              <label className="flex flex-col text-sm font-medium text-gray-700">
-                Description
-                <textarea
-                  name="description"
-                  placeholder="Describe what the event is about"
-                  rows="4"
-                  value={formData.description}
-                  onChange={handleChange}
-                  required
-                  className="mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
-                ></textarea>
-              </label>
-
-              <div className="flex justify-between mt-6">
+              <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition"
+                  className="bg-gray-300 text-gray-700 px-6 py-2  hover:bg-gray-400 transition"
+                  style={{ borderRadius: "0.35rem"}}
                 >
                   ← Back
                 </button>
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+                  className="bg-blue-600 text-white px-6 py-2  hover:bg-blue-700 transition" style={{ borderRadius: "0.35rem"}}
                 >
                   Next →
                 </button>
@@ -270,7 +274,7 @@ const EventPost = () => {
                 Step 3: Upload Poster & Submit
               </h3>
 
-              <label className="flex flex-col text-sm font-medium text-gray-700">
+              <label className="flex flex-col gap-1 text-base font-medium text-gray-700">
                 Event Poster
                 <input
                   name="posterFile"
@@ -278,30 +282,44 @@ const EventPost = () => {
                   accept="image/*"
                   onChange={handleChange}
                   required
-                  className="mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-base outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400"
                 />
               </label>
 
-              <div className="flex justify-between mt-6">
+              <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition"
+                  className="bg-gray-300 text-gray-700 px-6 py-2 hover:bg-gray-400 transition" style={{ borderRadius: "0.35rem"}}
                 >
                   ← Back
                 </button>
                 <button
                   type="submit"
-                  className={`px-6 py-2 rounded-lg text-white ${
+                  className={`px-6 py-2 text-white ${
                     loading
                       ? "bg-blue-400 cursor-not-allowed"
                       : "bg-blue-600 hover:bg-blue-700"
-                  } transition`}
+                  } transition `}
+                   onClick={nextStep}
                   disabled={loading}
+                  style={{ borderRadius: "0.35rem"}}
                 >
                   {loading ? "Uploading..." : "Submit Event"}
                 </button>
               </div>
+            </div>
+          )}
+          {step === 4 && (
+            <div className="animate-fadeIn">
+              <h3 className="text-lg font-semibold text-blue-500 mb-4">
+                Event Created Successfully!
+              </h3>
+              <p className="text-gray-700 mb-6">
+                Your event has been created and is now live on Tikko. You can view it in the events section.
+              </p>
+
+              
             </div>
           )}
         </form>
@@ -311,3 +329,4 @@ const EventPost = () => {
 }
 
 export default EventPost
+

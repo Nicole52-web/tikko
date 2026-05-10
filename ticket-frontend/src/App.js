@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/shared/ProtectedRoute";
 import DashboardLayout from "./layout/DashboardLayout";
 import Profile from "./pages/Profile";
 import EventPost from "./pages/EventPost";
+import EventPostSuccess from "./pages/EventPostSuccess";
 import Events from "./pages/Events";
 import PublicEvents from "./pages/PublicEvents";
 import EventDetails from "./pages/EventDetails";
@@ -42,6 +43,7 @@ function AppContent() {
         >
           <Route index element={<Profile />} />
           <Route path="post-event" element={<EventPost />} />
+          <Route path="post-event/success" element={<EventPostSuccess />} />
           <Route path="events" element={<Events />} />
           <Route path="event/:id" element={<EventDetails />} />
           <Route path="event/:id/edit" element={<EventEdit />} />
