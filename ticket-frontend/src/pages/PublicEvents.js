@@ -429,11 +429,11 @@ const PublicEvents = () => {
                       }
                     }}
                   >
-                    <img src={imageUrl} alt={event.eventname || "Event Poster"} className="card-img-top" />
+                    <img src={imageUrl} alt={event.eventname || "Event Poster"} className="card-img-top event-card-img" />
                     <div className="card-body">
                       <div className="d-flex align-items-start justify-content-between gap-2">
                         <h3 className="h5 fw-bold mb-1">{event.eventname}</h3>
-                        {event.category ? <span className="badge text-bg-primary">{event.category}</span> : null}
+                        {event.category ? <span className="badge bg-blue-700">{event.category}</span> : null}
                       </div>
 
                       <div className="text-secondary small">
@@ -449,7 +449,7 @@ const PublicEvents = () => {
                     </div>
                     <div className="card-footer bg-white border-top-0 pt-0 pb-3">
                       <div className="d-flex align-items-center justify-content-between">
-                        <div className="fw-bold text-primary">Ksh {event.ticketprice}</div>
+                        <div className="fw-bold text-blue-300">Ksh {event.ticketprice}</div>
                         <button
                           type="button"
                           className="btn btn-secondary"

@@ -85,7 +85,7 @@ const BookTicket = () => {
                 <img
                   src={imageUrl}
                   alt={event.eventname || "Event Poster"}
-                  className="w-full h-56 object-cover"
+                  className="event-card-img"
                 />
 
                 <div className="p-5">
@@ -109,7 +109,7 @@ const BookTicket = () => {
                     className="mt-4 w-full btn btn-secondary py-2 transition disabled:opacity-60"
                     onClick={() => handleGoToPayment(event)}
                   >
-                    🎟️ Book Ticket
+                    Book Ticket
                   </button>
                 </div>
               </div>

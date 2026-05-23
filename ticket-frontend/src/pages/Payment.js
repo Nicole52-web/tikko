@@ -16,6 +16,7 @@ const Payment = () => {
   const [paymentMethod, setPaymentMethod] = useState("mpesa");
   const [cardType, setCardType] = useState("visa");
   const [processing, setProcessing] = useState(false);
+  const [mpesaPhone, setMpesaPhone] = useState("");
 
   if (!user) {
     navigate("/signin");
@@ -59,10 +60,11 @@ const Payment = () => {
     try {
       // Simulate payment, then actually book the ticket
       await axios.post(
-        "http://localhost:5000/api/v1/Ticket/book",
+        "http://localhost:5000/api/v1/payments/stkpush",
         {
-          eventId: event.id || Number(eventId),
-          quantity: 1,
+          phoneNumber: mpesaPhone,
+          amount: event.ticketprice,
+          eventId: event.id,
         },
         {
           headers: {
@@ -157,6 +159,8 @@ const Payment = () => {
               M-PESA Phone Number
               <input
                 type="tel"
+                value={mpesaPhone}
+                onChange={(e) => setMpesaPhone(e.target.value)}
                 required
                 className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="e.g. 07xxxxxxxx"
