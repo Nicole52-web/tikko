@@ -18,6 +18,7 @@ import EventEdit from "./pages/EventEdit";
 import BookTicket from "./pages/BookTicket";
 import Payment from "./pages/Payment";
 import { ToastProvider } from "./context/ToastContext";
+import Contact from "./pages/Contact";
 
 function AppContent() {
   const location = useLocation();
@@ -32,6 +33,7 @@ function AppContent() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/faqs" element={<Faqs />} />
+        <Route path="/contact-us" element={<Contact />} />
 
         <Route
           path="/dashboard"

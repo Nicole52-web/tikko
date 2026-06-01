@@ -253,7 +253,7 @@ const PublicEvents = () => {
               </div>
 
               <div className="col-6 col-md-4 col-lg-2">
-                <button type="submit" className="btn btn-primary btn-lg w-100">
+                <button type="submit" className="btn btn-primary btn-lg w-100" style={{ backgroundColor: "#283384" }}>
                   Search
                 </button>
               </div>
@@ -271,6 +271,7 @@ const PublicEvents = () => {
                   type="button"
                   onClick={() => setFilters((prev) => ({ ...prev, category: "" }))}
                   className={`btn btn-sm ${filters.category === "" ? "btn-primary" : "btn-outline-primary"}`}
+                  style={{ backgroundColor: "#283384" }}
                 >
                   All
                 </button>

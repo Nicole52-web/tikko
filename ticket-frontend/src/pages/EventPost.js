@@ -3,6 +3,10 @@ import axios from 'axios';
 import { useToast } from '../context/ToastContext';
 import Loader from '../components/shared/loader/Loader';
 import { useNavigate } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
+
+
 
 const EventPost = () => {
     const { showToast } = useToast();
@@ -166,16 +170,19 @@ const EventPost = () => {
               </div>
 
               <div className="flex justify-end mt-6">
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  className="bg-blue-600 text-white px-6 py-2  hover:bg-blue-700 transition" style={{ borderRadius: "0.35rem"}}
-                >
-                  Next →
-                </button>
+             <button
+  type="button"
+  onClick={nextStep}
+  className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 hover:bg-blue-700 transition"
+  style={{ borderRadius: "0.35rem" }}
+>
+  Next
+  <FaArrowRight />
+</button>
               </div>
             </div>
           )}
+
 
           {/* STEP 2 */}
           {step === 2 && (
@@ -251,17 +258,17 @@ const EventPost = () => {
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="bg-gray-300 text-gray-700 px-6 py-2  hover:bg-gray-400 transition"
+                  className="flex items-center gap-2 bg-gray-300 text-gray-700 px-6 py-2  hover:bg-gray-400 transition"
                   style={{ borderRadius: "0.35rem"}}
                 >
-                  ← Back
+                  <FaArrowLeft /> Back
                 </button>
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="bg-blue-600 text-white px-6 py-2  hover:bg-blue-700 transition" style={{ borderRadius: "0.35rem"}}
+                  className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2  hover:bg-blue-700 transition" style={{ borderRadius: "0.35rem"}}
                 >
-                  Next →
+                  Next <FaArrowRight />
                 </button>
               </div>
             </div>
@@ -290,9 +297,9 @@ const EventPost = () => {
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="bg-gray-300 text-gray-700 px-6 py-2 hover:bg-gray-400 transition" style={{ borderRadius: "0.35rem"}}
+                  className="flex items-center gap-2 bg-gray-300 text-gray-700 px-6 py-2 hover:bg-gray-400 transition" style={{ borderRadius: "0.35rem"}}
                 >
-                  ← Back
+                  <FaArrowLeft /> Back
                 </button>
                 <button
                   type="submit"

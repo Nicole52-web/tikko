@@ -101,7 +101,7 @@ const Profile = () => {
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-sm transition"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-3 shadow-sm transition"
           >
             Edit
           </button>
@@ -110,7 +110,7 @@ const Profile = () => {
             <button
               onClick={handleSave}
               disabled={loading}
-              className={`bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-sm transition ${
+              className={`bg-green-600 hover:bg-green-700 text-white px-5 py-2 mx-2 rounded-3 shadow-sm transition ${
                 loading ? "opacity-60 cursor-not-allowed" : ""
               }`}
             >
@@ -118,7 +118,7 @@ const Profile = () => {
             </button>
             <button
               onClick={() => setIsEditing(false)}
-              className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-sm transition"
+              className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-3 shadow-sm transition"
             >
               Cancel
             </button>

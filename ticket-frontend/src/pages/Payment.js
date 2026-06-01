@@ -59,11 +59,19 @@ const Payment = () => {
 
     try {
       // Simulate payment, then actually book the ticket
+      const amount = Number(event.ticketprice);
+
+      if (!amount || Number.isNaN(amount) || amount <= 0) {
+        showToast("Invalid ticket amount. Please contact the event organizer.", "error");
+        setProcessing(false);
+        return;
+      }
+
       await axios.post(
         "http://localhost:5000/api/v1/payments/stkpush",
         {
           phoneNumber: mpesaPhone,
-          amount: event.ticketprice,
+          amount,
           eventId: event.id,
         },
         {
@@ -233,13 +241,13 @@ const Payment = () => {
           <button
             type="submit"
             disabled={processing}
-            className="px-6 py-2 bg-app-secondary hover:bg-app-secondary-dark text-white rounded-lg disabled:opacity-60"
+            className="px-6 py-2 bg-app-secondary hover:bg-app-secondary-dark text-white rounded-3 disabled:opacity-60"
           >
             {processing ? "Processing..." : "Pay & Book Ticket"}
           </button>
           <button
             type="button"
-            className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 rounded-3 text-gray-700 hover:bg-gray-50"
             onClick={() => navigate("/dashboard/book-ticket")}
           >
             Cancel

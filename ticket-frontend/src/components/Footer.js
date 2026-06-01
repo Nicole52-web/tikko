@@ -79,7 +79,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="/contact-us"
                     className="text-white text-decoration-none hover:no-underline hover:text-blue-100 transition duration-200"
                   >
                     Contact Support

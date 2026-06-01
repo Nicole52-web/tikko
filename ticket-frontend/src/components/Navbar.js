@@ -54,18 +54,18 @@ const Navbar = () => {
                 <Link to="/signup" className="nav-link text-white px-2" onClick={() => setMobileOpen(false)}>
                   Sign Up
                 </Link>
-                <a href="mailto:booktikko@gmail.com" className="btn btn-secondary ms-2" onClick={() => setMobileOpen(false)}>
+                <Link to="/contact-us" className="btn btn-secondary ms-2" onClick={() => setMobileOpen(false)}>
                   Contact Us
-                </a>
+                </Link>
               </>
             ) : (
               <>
                 <Link to="/dashboard" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
                   Dashboard
                 </Link>
-                <a href="mailto:booktikko@gmail.com" className="btn btn-secondary" onClick={() => setMobileOpen(false)}>
+                <Link to="/contact-us" className="btn btn-secondary" onClick={() => setMobileOpen(false)}>
                   Contact Us
-                </a>
+                </Link>
                 <button
                   type="button"
                   className="btn btn-outline-secondary"

@@ -1,5 +1,6 @@
 const moment = require('moment');
 const axios = require('axios');
+const pool = require('../db');
 const { getAccessToken } = require('../services/mpesaService');
 
 
@@ -7,6 +8,18 @@ const stkPush = async (req,res) =>{
     try {
         const userId = req.user.id;
         let { phoneNumber, amount, eventId } = req.body;
+
+        if (!phoneNumber || !amount || !eventId) {
+            return res.status(400).json({ error: 'Missing payment details' });
+        }
+
+        const parsedAmount = parseInt(amount, 10);
+
+        if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
+            return res.status(400).json({ error: 'Invalid payment amount' });
+        }
+
+        amount = parsedAmount;
 
         if (phoneNumber.startsWith('0')){
             phoneNumber = '254' + phoneNumber.substring(1);
@@ -38,7 +51,7 @@ const stkPush = async (req,res) =>{
                 PartyA: phoneNumber,
                 PartyB: process.env.MPESA_SHORTCODE,
                 PhoneNumber: phoneNumber,
-                CallBackURL:process.env.MPESA_CALLBACK_URL,
+                CallBackURL: process.env.MPESA_CALLBACK_URL,
                 AccountReference: `Event - ${eventId} Ticket`,
                 TransactionDesc: 'Payment for ticket',
             },
@@ -60,7 +73,7 @@ const stkPush = async (req,res) =>{
 
             user_id,
             event_id,
-            phone_number,
+            phonenumber,
             amount,
             status,
             checkout_request_id
@@ -86,8 +99,14 @@ const stkPush = async (req,res) =>{
     } catch (error) {
         console.log(error.response?.data || error.message);
 
-        res.status(500).json({
-            error: 'Failed to initiate payment',
+        const message =
+            error.response?.data?.errorMessage ||
+            error.response?.data?.error ||
+            error.message ||
+            'Failed to initiate payment';
+
+        res.status(error.response?.status || 500).json({
+            error: message,
         });
     }
 }
@@ -119,7 +138,7 @@ const mpesaCallback = async (req, res) => {
                 `UPDATE payments
                 SET 
                 status = $1,
-                mpesa_receipt_number = $2
+                mpesareceiptnumber = $2
                 WHERE checkout_request_id = $3`,
                 [
                     "SUCCESS",
@@ -142,13 +161,14 @@ const mpesaCallback = async (req, res) => {
                 (
                     user_id,
                     event_id,
-                    quantity,)
-                    VALUES ($1, $2, $3)`,
-                    [
-                        payment.user_id,
-                        payment.event_id,
-                        1,
-                    ]
+                    quantity
+                )
+                VALUES ($1, $2, $3)`,
+                [
+                    payment.user_id,
+                    payment.event_id,
+                    1,
+                ]
             );
 
             console.log(`Payment successful for ${phoneNumber}, amount: ${amount}, receipt: ${mpesaReceiptNumber}`);

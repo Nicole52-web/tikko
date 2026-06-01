@@ -8,6 +8,8 @@ import {
 import { CgLogOut } from "react-icons/cg";
 import { PiUserFill } from "react-icons/pi";
 import { LuTicketCheck } from "react-icons/lu";
+import { TbChecklist } from "react-icons/tb";
+import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { RiFileHistoryFill, RiRefund2Line, RiFunctionAddFill } from "react-icons/ri";
 
 const LargeSidebar = () => {
@@ -97,6 +99,15 @@ const LargeSidebar = () => {
   {/* ORGANIZER LINKS */}
   {role === "organizer" && (
     <>
+    <NavLink to="/dashboard/analytics" className={({ isActive }) =>
+      `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+        isActive
+          ? "bg-blue-600 text-white"
+          : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+      }`
+    }>
+      <TbDeviceDesktopAnalytics className="text-xl" /> Analytics
+    </NavLink>
       <NavLink
         to="/dashboard/post-event"
         className={({ isActive }) =>
@@ -121,6 +132,16 @@ const LargeSidebar = () => {
         }
       >
         <FaGlassCheers className="text-xl" /> My Events
+      </NavLink>
+
+      <NavLink to="/dashboard/booked-events" className={({ isActive }) =>
+        `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+          isActive
+            ? "bg-blue-600 text-white"
+            : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+        }`
+      }>
+        <TbChecklist className="text-xl" /> Booked Events
       </NavLink>
     </>
   )}
