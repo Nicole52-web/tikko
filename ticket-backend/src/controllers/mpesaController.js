@@ -2,6 +2,7 @@ const moment = require('moment');
 const axios = require('axios');
 const pool = require('../db');
 const { getAccessToken } = require('../services/mpesaService');
+const { isValidUuid } = require('../utils/uuid');
 
 
 const stkPush = async (req,res) =>{
@@ -11,6 +12,10 @@ const stkPush = async (req,res) =>{
 
         if (!phoneNumber || !amount || !eventId) {
             return res.status(400).json({ error: 'Missing payment details' });
+        }
+
+        if (!isValidUuid(eventId)) {
+            return res.status(400).json({ error: 'Invalid eventId' });
         }
 
         const parsedAmount = parseInt(amount, 10);
@@ -196,4 +201,38 @@ const mpesaCallback = async (req, res) => {
     }
 }
 
-module.exports = { stkPush, mpesaCallback};
+const getPaymentStatus = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { checkoutRequestId } = req.params;
+
+        const paymentResult = await pool.query(
+            `SELECT * FROM payments
+            WHERE checkout_request_id = $1 AND user_id = $2`,
+            [checkoutRequestId, userId]
+        );
+
+        if (!paymentResult.rows[0]) {
+            return res.status(404).json({ error: 'Payment not found' });
+        }
+
+        const payment = paymentResult.rows[0];
+        let ticket = null;
+
+        if (payment.status === 'SUCCESS') {
+            const { getLatestTicketForEvent } = require('../models/TicketModel');
+            ticket = await getLatestTicketForEvent(userId, payment.event_id);
+        }
+
+        res.status(200).json({
+            status: payment.status,
+            ticket,
+            eventId: payment.event_id,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: 'Failed to fetch payment status' });
+    }
+};
+
+module.exports = { stkPush, mpesaCallback, getPaymentStatus };

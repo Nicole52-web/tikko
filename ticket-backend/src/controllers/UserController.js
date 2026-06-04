@@ -5,7 +5,13 @@ const jwt = require("jsonwebtoken")
 
 const addUser = async (req , res ) => {
     try {
-        const {firstName, lastName, email, password, role} = req.body;
+        const firstName = req.body.firstname ?? req.body.firstName;
+        const lastName = req.body.lastname ?? req.body.lastName;
+        const { email, password, role } = req.body;
+
+        if (!firstName?.trim() || !lastName?.trim()) {
+            return res.status(400).json({ msg: "First name and last name are required" });
+        }
 
 
         //if user exists
@@ -22,7 +28,13 @@ const addUser = async (req , res ) => {
 
 
         //saving user
-        const newUser = await User.createUser(firstName,lastName,email, hashedPassword, userRole);
+        const newUser = await User.createUser(
+            firstName.trim(),
+            lastName.trim(),
+            email,
+            hashedPassword,
+            userRole
+        );
         res.json(newUser);
     } catch (error) {
         console.log(error.message);
@@ -75,7 +87,9 @@ const getMe = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const {firstName, lastName, email } = req.body;
+        const firstName = req.body.firstname ?? req.body.firstName;
+        const lastName = req.body.lastname ?? req.body.lastName;
+        const { email } = req.body;
         const userId = req.user.id;
 
         const existingUser = await User.findUserByEmail(email);
@@ -85,8 +99,8 @@ const updateUser = async (req, res) => {
 
 
         const updatedUser = await User.updateUser(userId, {
-            firstName,
-            lastName,
+            firstName: firstName?.trim(),
+            lastName: lastName?.trim(),
             email,
         });
 

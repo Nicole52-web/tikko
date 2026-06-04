@@ -12,7 +12,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-       - postgres_data:/var/lib/postgresql/data  
+       - postgres_data:/var/lib/postgresql/data
+       - ./ticket-backend/sql/schema-uuid.sql:/docker-entrypoint-initdb.d/01-schema-uuid.sql
   ticket-backend:
     build: ./ticket-backend
     container_name: ticket_backend

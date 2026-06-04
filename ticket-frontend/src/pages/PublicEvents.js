@@ -425,9 +425,9 @@ const PublicEvents = () => {
                     onClick={() => {
                       if (!user) {
                         navigate("/signin");
-                      } else {
-                        navigate(`/dashboard/event/${event.id}`);
+                        return;
                       }
+                      navigate(`/dashboard/event/${event.id}`);
                     }}
                   >
                     <img src={imageUrl} alt={event.eventname || "Event Poster"} className="card-img-top event-card-img" />

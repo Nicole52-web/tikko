@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:schema": "node scripts/run-sql.js sql/schema-uuid.sql",
+    "db:migrate": "node scripts/run-sql.js sql/migrate-to-uuid.sql",
+    "db:fix-defaults": "node scripts/run-sql.js sql/fix-uuid-defaults.sql",
+    "db:reset": "node scripts/run-sql.js sql/reset-uuid.sql"
   },
   "keywords": [],
   "author": "",

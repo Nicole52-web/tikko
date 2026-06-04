@@ -24,8 +24,8 @@ const SignUp = () => {
       const response = await axios.post(
         "http://localhost:5000/api/v1/User/createuser",
         {
-          firstname: firstName,
-          lastname: lastName,
+          firstName: firstName,
+          lastName: lastName,
           email,
           password,
           role,

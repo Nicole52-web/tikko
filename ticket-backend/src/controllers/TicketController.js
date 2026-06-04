@@ -1,5 +1,10 @@
-const { createTicket, getTicketsByUser } = require("../models/TicketModel");
+const {
+  createTicket,
+  getTicketsByUser,
+  getTicketById,
+} = require("../models/TicketModel");
 const { getEventById } = require("../models/EventModel");
+const { isValidUuid } = require("../utils/uuid");
 
 // POST /api/v1/Ticket/book
 const bookTicket = async (req, res) => {
@@ -9,6 +14,10 @@ const bookTicket = async (req, res) => {
 
     if (!eventId) {
       return res.status(400).json({ message: "eventId is required" });
+    }
+
+    if (!isValidUuid(eventId)) {
+      return res.status(400).json({ message: "Invalid eventId" });
     }
 
     const event = await getEventById(eventId);
@@ -39,8 +48,27 @@ const getMyTickets = async (req, res) => {
   }
 };
 
+// GET /api/v1/Ticket/my-tickets/:ticketId
+const getMyTicketById = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { ticketId } = req.params;
+
+    const ticket = await getTicketById(ticketId, userId);
+    if (!ticket) {
+      return res.status(404).json({ message: "Ticket not found" });
+    }
+
+    res.json({ ticket });
+  } catch (error) {
+    console.error("Error fetching ticket:", error);
+    res.status(500).json({ message: "Server error fetching ticket" });
+  }
+};
+
 module.exports = {
   bookTicket,
   getMyTickets,
+  getMyTicketById,
 };
 

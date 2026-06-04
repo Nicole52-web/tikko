@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
+import { apiUrl } from "../config/api";
 
 const Payment = () => {
   const { user, token } = useContext(AuthContext);
@@ -53,12 +54,39 @@ const Payment = () => {
     );
   }
 
+  const pollPaymentStatus = async (checkoutRequestId) => {
+    const maxAttempts = 30;
+    const delayMs = 2000;
+
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      const statusRes = await axios.get(
+        apiUrl(`/api/v1/payments/status/${checkoutRequestId}`),
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const { status, ticket } = statusRes.data;
+
+      if (status === "SUCCESS" && ticket?.ticket_id) {
+        return ticket.ticket_id;
+      }
+
+      if (status === "FAILED") {
+        throw new Error("Payment was declined or cancelled.");
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+
+    throw new Error(
+      "Payment confirmation is taking longer than expected. Check My Tickets once M-PESA completes."
+    );
+  };
+
   const handlePay = async (e) => {
     e.preventDefault();
     setProcessing(true);
 
     try {
-      // Simulate payment, then actually book the ticket
       const amount = Number(event.ticketprice);
 
       if (!amount || Number.isNaN(amount) || amount <= 0) {
@@ -67,8 +95,8 @@ const Payment = () => {
         return;
       }
 
-      await axios.post(
-        "http://localhost:5000/api/v1/payments/stkpush",
+      const pushRes = await axios.post(
+        apiUrl("/api/v1/payments/stkpush"),
         {
           phoneNumber: mpesaPhone,
           amount,
@@ -81,12 +109,26 @@ const Payment = () => {
         }
       );
 
-      showToast("Payment successful, ticket booked!", "success");
-      navigate("/dashboard/book-ticket");
+      const checkoutRequestId =
+        pushRes.data?.data?.CheckoutRequestID ||
+        pushRes.data?.checkoutRequestId;
+
+      if (!checkoutRequestId) {
+        throw new Error("Could not start payment. Please try again.");
+      }
+
+      showToast("Complete the M-PESA prompt on your phone...", "info");
+
+      const ticketId = await pollPaymentStatus(checkoutRequestId);
+
+      showToast("Payment successful! Your ticket is ready.", "success");
+      navigate(`/dashboard/payment/success/${ticketId}`);
     } catch (error) {
       console.error("Error processing payment/booking:", error);
       const message =
+        error?.response?.data?.error ||
         error?.response?.data?.message ||
+        error.message ||
         "Failed to process payment. Please try again.";
       showToast(message, "error");
     } finally {
@@ -243,7 +285,7 @@ const Payment = () => {
             disabled={processing}
             className="px-6 py-2 bg-app-secondary hover:bg-app-secondary-dark text-white rounded-3 disabled:opacity-60"
           >
-            {processing ? "Processing..." : "Pay & Book Ticket"}
+            {processing ? "Waiting for M-PESA..." : "Pay & Book Ticket"}
           </button>
           <button
             type="button"

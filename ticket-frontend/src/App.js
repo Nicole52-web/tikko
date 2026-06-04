@@ -17,6 +17,8 @@ import EventDetails from "./pages/EventDetails";
 import EventEdit from "./pages/EventEdit";
 import BookTicket from "./pages/BookTicket";
 import Payment from "./pages/Payment";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import MyTickets from "./pages/MyTickets";
 import { ToastProvider } from "./context/ToastContext";
 import Contact from "./pages/Contact";
 
@@ -50,6 +52,8 @@ function AppContent() {
           <Route path="event/:id" element={<EventDetails />} />
           <Route path="event/:id/edit" element={<EventEdit />} />
           <Route path="book-ticket" element={<BookTicket />} />
+          <Route path="my-tickets" element={<MyTickets />} />
+          <Route path="payment/success/:ticketId" element={<PaymentSuccess />} />
           <Route path="payment/:eventId" element={<Payment />} />
         </Route>
       </Routes>
