@@ -3,12 +3,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/shared/loader/Loader";
-import { useToast } from "../context/ToastContext";
+// import { useToast } from "../context/ToastContext";
 import { apiUrl, mediaUrl } from "../config/api";
+import {toast} from 'react-toastify';
 
 const BookTicket = () => {
   const { token, user } = useContext(AuthContext);
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -27,18 +28,18 @@ const BookTicket = () => {
         setEvents(eventData);
       } catch (error) {
         console.error("Error fetching events:", error);
-        showToast("Failed to load events.", "error");
+        toast.error("Failed to load events.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchEvents();
-  }, [showToast]);
+  }, [toast]);
 
   const handleGoToPayment = (event) => {
     if (!user || user.role !== "applicant") {
-      showToast("Only applicants can book tickets.", "info");
+      toast.info("Only applicants can book tickets.");
       return;
     }
 

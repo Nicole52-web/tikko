@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
-import { useToast } from "../context/ToastContext";
+// import { useToast } from "../context/ToastContext";
+import {toast} from 'react-toastify';
 
 const Profile = () => {
   const { user, token } = useContext(AuthContext);
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
   const [formData, setFormData] = useState({
     firstName: user?.firstname || "",
     lastName: user?.lastname || "",
@@ -29,11 +30,11 @@ const Profile = () => {
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      showToast("Profile updated successfully!", "success");
+      toast.success("Profile updated successfully!", "success");
       setIsEditing(false);
     } catch (err) {
       console.error("Update error", err);
-      showToast("Failed to update profile", "error");
+      toast.error("Failed to update profile", "error");
     } finally {
       setLoading(false);
     }

@@ -3,8 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/shared/loader/Loader";
 import { AuthContext } from "../context/AuthContext";
-import { useToast } from "../context/ToastContext";
+// import { useToast } from "../context/ToastContext";
 import { apiUrl, mediaUrl } from "../config/api";
+import {toast} from 'react-toastify';
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -13,7 +14,7 @@ const EventDetails = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { token, user } = useContext(AuthContext);
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
 
   const isApplicant = user?.role === "applicant";
   const isOrganizer = user?.role === "organizer" || user?.role === "admin";
@@ -42,18 +43,18 @@ const EventDetails = () => {
       } catch (err) {
         console.error("Error fetching event details:", err);
         setError("Failed to load event");
-        showToast("Failed to load event details.", "error");
+        toast.error("Failed to load event details.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchEvent();
-  }, [id, token, showToast]);
+  }, [id, token, toast]);
 
   const handleGoToPayment = () => {
     if (!user || user.role !== "applicant") {
-      showToast("Only applicants can book tickets.", "info");
+      toast.info("Only applicants can book tickets.");
       return;
     }
     navigate(`/dashboard/payment/${event.id}`, { state: { event } });

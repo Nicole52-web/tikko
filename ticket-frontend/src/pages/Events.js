@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {AuthContext} from "../context/AuthContext";
-import { useToast } from "../context/ToastContext";
+// import { useToast } from "../context/ToastContext";
 import Loader from "../components/shared/loader/Loader";
+import {toast} from 'react-toastify';
 
 
 const Events = () => {
@@ -11,7 +12,7 @@ const Events = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
 
   const handleDelete = async (e, id) => {
     e.stopPropagation();
@@ -25,7 +26,7 @@ const Events = () => {
       setEvents((prev) => prev.filter((ev) => ev.id !== id));
     } catch (error) {
       console.error("Error deleting event:", error);
-      showToast("Failed to delete event. Please try again.", "error");
+      toast.error("Failed to delete event. Please try again.", "error");
     }
   };
 
@@ -44,13 +45,13 @@ const Events = () => {
         setEvents(eventData);
       } catch (error) {
         console.error("Error fetching events:", error);
-        showToast("Failed to load events.", "error");
+        toast.error("Failed to load events.", "error");
       } finally {
         setLoading(false);
       }
     };
     if (token) fetchEvents();
-  }, [token, showToast]);
+  }, [token, toast]);
 
   if (loading) {
     return (

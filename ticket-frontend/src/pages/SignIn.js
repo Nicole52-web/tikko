@@ -3,17 +3,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import Loader from "../components/shared/loader/Loader";
-import { useToast } from "../context/ToastContext";
+// import { useToast } from "../context/ToastContext";
 import AuthBackgroundCarousel from "../components/AuthBackgroundCarousel";
 import Footer from "../components/Footer";
+import { toast } from 'react-toastify';
+
 
 const SignIn = () => {
   const { login } = useContext(AuthContext);
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,10 +27,10 @@ const SignIn = () => {
         password,
       });
       login(res.data.token, res.data.user);
-      showToast("Logged in successfully", "success");
+      toast.success("Logged in successfully");
       navigate("/dashboard");
     } catch (error) {
-      showToast("Invalid credentials", "error");
+      toast.error("Invalid credentials");
     } finally {
       setLoading(false);
     }

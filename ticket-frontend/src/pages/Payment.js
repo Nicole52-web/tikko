@@ -2,12 +2,13 @@ import React, { useContext, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
-import { useToast } from "../context/ToastContext";
+// import { useToast } from "../context/ToastContext";
 import { apiUrl } from "../config/api";
+import {toast} from 'react-toastify';
 
 const Payment = () => {
   const { user, token } = useContext(AuthContext);
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
   const navigate = useNavigate();
   const { eventId } = useParams();
   const location = useLocation();
@@ -90,7 +91,7 @@ const Payment = () => {
       const amount = Number(event.ticketprice);
 
       if (!amount || Number.isNaN(amount) || amount <= 0) {
-        showToast("Invalid ticket amount. Please contact the event organizer.", "error");
+        toast.error("Invalid ticket amount. Please contact the event organizer.", "error");
         setProcessing(false);
         return;
       }
@@ -117,11 +118,11 @@ const Payment = () => {
         throw new Error("Could not start payment. Please try again.");
       }
 
-      showToast("Complete the M-PESA prompt on your phone...", "info");
+      toast.info("Complete the M-PESA prompt on your phone...", "info");
 
       const ticketId = await pollPaymentStatus(checkoutRequestId);
 
-      showToast("Payment successful! Your ticket is ready.", "success");
+      toast.success("Payment successful! Your ticket is ready.", "success");
       navigate(`/dashboard/payment/success/${ticketId}`);
     } catch (error) {
       console.error("Error processing payment/booking:", error);
@@ -130,7 +131,7 @@ const Payment = () => {
         error?.response?.data?.message ||
         error.message ||
         "Failed to process payment. Please try again.";
-      showToast(message, "error");
+      toast.error(message, "error");
     } finally {
       setProcessing(false);
     }

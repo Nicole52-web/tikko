@@ -1,15 +1,16 @@
 ﻿import React, { useState } from 'react'
 import axios from 'axios';
-import { useToast } from '../context/ToastContext';
+// import { useToast } from '../context/ToastContext';
 import Loader from '../components/shared/loader/Loader';
 import { useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
+import {toast} from 'react-toastify';
 
 
 
 const EventPost = () => {
-    const { showToast } = useToast();
+    // const { showToast } = useToast();
     const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -60,7 +61,7 @@ const EventPost = () => {
   }
 );
 
-      showToast("Event created successfully!", "success");
+      toast.success("Event created successfully!", "success");
       console.log(res.data);
 
       // Reset form
@@ -79,7 +80,7 @@ const EventPost = () => {
       navigate("/dashboard/post-event/success");
     } catch (error) {
       console.error(error);
-      showToast("Failed to create event. Try again!", "error");
+      toast.error("Failed to create event. Try again!", "error");
     } finally {
       setLoading(false);
     }

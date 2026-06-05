@@ -19,8 +19,9 @@ import BookTicket from "./pages/BookTicket";
 import Payment from "./pages/Payment";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import MyTickets from "./pages/MyTickets";
-import { ToastProvider } from "./context/ToastContext";
 import Contact from "./pages/Contact";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AppContent() {
   const location = useLocation();
@@ -64,11 +65,14 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <ToastProvider>
+       
         <Router>
           <AppContent />
         </Router>
-      </ToastProvider>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+      />
     </AuthProvider>
   );
 }

@@ -3,13 +3,14 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/shared/loader/Loader";
-import { useToast } from "../context/ToastContext";
+// import { useToast } from "../context/ToastContext";
+import {toast} from 'react-toastify';
 
 const EventEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
 
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
@@ -45,7 +46,7 @@ const EventEdit = () => {
         }));
       } catch (err) {
         console.error("Failed to load event:", err);
-        showToast("Failed to load event for editing.", "error");
+        toast.error("Failed to load event for editing.");
         navigate("/dashboard/events");
       } finally {
         setInitialLoading(false);
@@ -80,11 +81,11 @@ const EventEdit = () => {
         },
       });
 
-      showToast("Event updated successfully!", "success");
+      toast.success("Event updated successfully!");
       navigate("/dashboard/events");
     } catch (error) {
       console.error(error);
-      showToast("Failed to update event. Try again!", "error");
+      toast.error("Failed to update event. Try again!");
     } finally {
       setLoading(false);
     }

@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/shared/loader/Loader";
-import { useToast } from "../context/ToastContext";
+// import { useToast } from "../context/ToastContext";
 import AuthBackgroundCarousel from "../components/AuthBackgroundCarousel";
 import Footer from "../components/Footer";
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
   const [role, setRole] = useState("applicant");
   const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState("");
@@ -33,13 +34,13 @@ const SignUp = () => {
       );
 
       if (response.status === 200) {
-        showToast("Account created successfully. Please sign in.", "success");
+        toast.success("Account created successfully. Please sign in.", "success");
         navigate("/signin");
       } else {
         throw new Error("Unexpected Error");
       }
     } catch (error) {
-      showToast("Failed to create account. Try again.", "error");
+      toast.error("Failed to create account. Try again.", "error");
     } finally {
       setLoading(false);
     }

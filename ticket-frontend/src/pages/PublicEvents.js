@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/shared/loader/Loader";
-import { useToast } from "../context/ToastContext";
+// import { useToast } from "../context/ToastContext";
 import { AuthContext } from "../context/AuthContext";
 import { apiUrl, mediaUrl } from "../config/api";
 import Footer from "../components/Footer";
+import {toast} from 'react-toastify';
 
 const PublicEvents = () => {
   const [events, setEvents] = useState([]);
@@ -23,7 +24,7 @@ const PublicEvents = () => {
   });
 
   const navigate = useNavigate();
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -40,14 +41,14 @@ const PublicEvents = () => {
         setEvents(eventData);
       } catch (error) {
         console.error("Error fetching events:", error);
-        showToast("Failed to load events.", "error");
+        toast.error("Failed to load events.", "error");
       } finally {
         setLoading(false);
       }
     };
 
     fetchEvents();
-  }, [showToast]);
+  }, [toast]);
 
   const categories = useMemo(() => {
     const unique = new Set();
@@ -461,7 +462,7 @@ const PublicEvents = () => {
                             } else if (user.role === "applicant") {
                               navigate(`/dashboard/payment/${event.id}`, { state: { event } });
                             } else {
-                              showToast("Only applicants can book tickets.", "info");
+                              toast.info("Only applicants can book tickets.", "info");
                             }
                           }}
                         >
