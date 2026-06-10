@@ -66,9 +66,26 @@ const getMyTicketById = async (req, res) => {
   }
 };
 
+
+const getOrganizerTickets = async (req,res) => {
+  try {
+    const organizerId = req.user.id;
+
+    const ticket = await getTicketsByOrganizer(organizerId);
+
+    res.json({ ticket});
+
+  }catch (error)
+ {
+  console.log("EError fetching organizer tickets:", error);
+  res.status(500).json({ message: "Server error fetching organizer tickets" });
+ }
+};
+
 module.exports = {
   bookTicket,
   getMyTickets,
   getMyTicketById,
+  getOrganizerTickets,
 };
 

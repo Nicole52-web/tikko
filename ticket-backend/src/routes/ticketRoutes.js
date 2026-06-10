@@ -5,6 +5,7 @@ const {
   bookTicket,
   getMyTickets,
   getMyTicketById,
+  getOrganizerTickets,
 } = require("../controllers/TicketController");
 const validateUuidParams = require("../middleware/validateUuidParams");
 
@@ -20,6 +21,7 @@ router.get(
   validateUuidParams("ticketId"),
   getMyTicketById
 );
+router.get("/booked-events", auth, authorizeRoles("organizer", "admin"), getOrganizerTickets);
 
 module.exports = router;
 

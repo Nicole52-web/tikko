@@ -92,17 +92,17 @@ const MyTickets = () => {
                   key={ticket.ticket_id}
                   type="button"
                   onClick={() => setSelectedTicket(ticket)}
-                  className={`w-full text-left p-5 bg-white rounded-xl shadow transition border-2 ${
+                  className={`w-full text-left p-5 bg-white rounded-3 shadow transition border-2 mb-2 ${
                     isSelected
                       ? "border-blue-600 ring-2 ring-blue-100"
                       : "border-transparent hover:border-blue-200"
                   }`}
                 >
                   <div className="flex justify-between items-start gap-3">
-                    <div>
+                    <div className="">
                       <h3 className="font-semibold text-gray-800">{ticket.eventname}</h3>
                       <p className="text-sm text-gray-500 mt-1">
-                        {ticket.place}, {ticket.location}
+                        {ticket.place}, {ticket.location} 
                       </p>
                       <p className="text-sm text-gray-400 mt-1">
                         {formatEventDate(ticket.date)}
@@ -111,15 +111,15 @@ const MyTickets = () => {
                         Ticket {ticket.ticket_id}
                       </p>
                     </div>
-                    <span
-                      className={`text-xs font-medium px-2 py-1 rounded-full shrink-0 ${
-                        canDownload
-                          ? "bg-green-100 text-green-700"
-                          : "bg-gray-100 text-gray-500"
-                      }`}
-                    >
-                      {canDownload ? "Downloadable" : "Event passed"}
-                    </span>
+                <span
+  className={`inline-flex self-start text-xs font-medium px-2 py-0.5 rounded-full leading-none ${
+    canDownload
+      ? "bg-green-100 text-green-700"
+      : "bg-blue-100 text-gray-500"
+  }`}
+>
+  {canDownload ? "Downloadable" : "Event passed"}
+</span>
                   </div>
                 </button>
               );

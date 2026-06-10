@@ -235,4 +235,108 @@ const getPaymentStatus = async (req, res) => {
     }
 };
 
-module.exports = { stkPush, mpesaCallback, getPaymentStatus };
+const getOrganizerBookings = async (req, res) => {
+    try {
+        const organizerId = req.user.id;
+
+        const result = await pool.query(
+            `SELECT
+            p.id,
+            p.amount,
+            p.phonenumber,
+            p.mpesareceiptnumber,
+            p.created_at,
+            e.eventname,
+            e.date,
+            e.location,
+            e.place,
+            u.firstname,
+            u.lastname,
+            u.email
+            FROM payments p
+            INNER JOIN events e
+              ON p.event_id = e.id
+            INNER JOIN users u
+              ON p.user_id = u.id
+            WHERE e.user_id = $1
+              AND p.status = 'PENDING'
+            ORDER BY p.created_at DESC      
+            `,
+            [organizerId]
+        );
+
+        res.status(200).json({
+            success: true,
+            bookings: result.rows,
+        });
+    }catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch bookings",
+        });
+    }
+};
+
+
+const getOrganizerBookingsSummary = async (req, res) => {
+  try {
+    const organizerId = req.user.id;
+
+    const result = await pool.query(
+      `
+      SELECT
+        e.id AS event_id,
+        e.eventname,
+        e.date,
+        e.location,
+        e.ticketprice,
+        COUNT(p.id) AS total_bookings
+      FROM events e
+      LEFT JOIN payments p
+        ON p.event_id = e.id
+        AND p.status = 'PENDING'
+      WHERE e.user_id = $1
+      GROUP BY e.id
+      ORDER BY e.date DESC
+      `,
+      [organizerId]
+    );
+
+    res.json({ events: result.rows });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch summary" });
+  }
+};
+
+
+const getEventBookingsDetails = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+
+    const result = await pool.query(
+      `
+      SELECT
+        u.firstname,
+        u.lastname,
+        u.email,
+        p.amount,
+        p.mpesareceiptnumber,
+        p.created_at
+      FROM payments p
+      JOIN users u ON u.id = p.user_id
+      WHERE p.event_id = $1
+        AND p.status = 'PENDING'
+      ORDER BY p.created_at DESC
+      `,
+      [eventId]
+    );
+
+    res.json({ attendees: result.rows });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch attendees" });
+  }
+};
+module.exports = { stkPush, mpesaCallback, getPaymentStatus, getOrganizerBookings, getOrganizerBookingsSummary, getEventBookingsDetails };
