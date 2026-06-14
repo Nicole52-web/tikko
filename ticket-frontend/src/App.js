@@ -23,6 +23,7 @@ import Contact from "./pages/Contact";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BookedEvents from "./pages/BookedEvents";
+import BookingDetails from "./pages/BookingDetails";
 
 function AppContent() {
   const location = useLocation();
@@ -58,6 +59,7 @@ function AppContent() {
           <Route path="payment/success/:ticketId" element={<PaymentSuccess />} />
           <Route path="payment/:eventId" element={<Payment />} />
           <Route path="booked-events" element={<BookedEvents />} />
+          <Route path="booking-details/:eventId" element={<BookingDetails/>}/>
         </Route>
       </Routes>
     </>

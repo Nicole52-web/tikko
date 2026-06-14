@@ -1,5 +1,5 @@
 const express = require('express');
-const { stkPush, mpesaCallback, getPaymentStatus, getOrganizerBookings, getOrganizerBookingsSummary, getEventBookingsDetails } = require('../controllers/mpesaController');
+const { stkPush, mpesaCallback, getPaymentStatus, getOrganizerBookings, getOrganizerBookingsSummary, getEventBookingsDetails, verifyTicket } = require('../controllers/mpesaController');
 const auth = require('../middleware/authMiddleware');
 const router = express.Router();
 
@@ -10,5 +10,6 @@ router.post('/callback', mpesaCallback);
 router.get('/organizer-bookings', auth, getOrganizerBookings);
 router.get("/organizer/summary", auth, getOrganizerBookingsSummary);
 router.get("/organizer/event/:eventId", auth, getEventBookingsDetails);
+router.get("/verify-ticket", auth, verifyTicket)
 
 module.exports = router;

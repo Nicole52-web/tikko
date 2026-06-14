@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext';
 import { apiUrl } from '../config/api';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const BookedEvents = () => {
     const { token} = useContext(AuthContext);
@@ -10,6 +11,8 @@ const BookedEvents = () => {
     const [events, setEvents] = useState([]);
     const [attendees, setAttendees] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("")
+    const navigate = useNavigate();
 
   useEffect(() => {
   const fetchEvents = async () => {
@@ -28,6 +31,12 @@ const BookedEvents = () => {
 
 
 const viewDetails = async (eventId) => {
+
+  if (selectedEvent === eventId) {
+    setSelectedEvent(null);
+    setAttendees([]);
+    return;
+  }
   const res = await axios.get(
     apiUrl(`/api/v1/payments/organizer/event/${eventId}`),
     {
@@ -39,10 +48,34 @@ const viewDetails = async (eventId) => {
   setSelectedEvent(eventId);
 };
 
+
+const filteredEvents =  events.filter((event) => {
+  const eventName = event.eventname?.toLowerCase() || ""
+
+  const eventDay = new Date(event.date).toLocaleDateString().toLocaleLowerCase();
+
+  const location = event.location?.toLocaleLowerCase() || ""
+
+
+  return(
+    eventName.includes(searchTerm) ||
+    eventDay.includes(searchTerm) ||
+    location.includes(searchTerm)
+  )
+})
+
   return (
 
     <div>
         <h1 className='text-center'>List of Booked Events</h1>
+
+
+        <div className="p-4 mb-6">
+        <label className="block text-gray-700 font-medium mb-2">Search Event: </label>
+        <input placeholder="Search events..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="border rounded-2 p-2 ml-2">
+        
+        </input>
+    </div>
 
         {events.length ===0 ? (
             <p className='text-center mt-4'>No booked events found.</p>
@@ -59,10 +92,10 @@ const viewDetails = async (eventId) => {
             </tr>
         </thead>
       <tbody>
-  {events.map((event) => (
+  {filteredEvents.map((event) => (
     <tr key={event.event_id}>
       <td className="border px-4 py-2">{event.eventname}</td>
-      <td className="border px-4 py-2">{event.date}</td>
+      <td className="border px-4 py-2">{new Date(event.date).toLocaleDateString()}</td>
       <td className="border px-4 py-2">{event.location}</td>
 
       {/* total SUCCESS payments */}
@@ -74,8 +107,8 @@ const viewDetails = async (eventId) => {
       </td>
 
       <td className="border px-4 py-2">
-        <button onClick={() => viewDetails(event.event_id)} className='bg-blue-600 hover:bg-blue-700 rounded-3 py-2 px-4 text-white' >
-          View
+        <button onClick={() => navigate(`/dashboard/booking-details/${event.event_id}`)} className='bg-blue-600 hover:bg-blue-700 rounded-3 py-2 px-4 text-white' >
+         { selectedEvent === event.event_id ? "Close" : "View"}
         </button>
       </td>
     </tr>
@@ -86,34 +119,7 @@ const viewDetails = async (eventId) => {
         )}
 
 
-        {selectedEvent && (
-  <div className="mt-6">
-    <h2>Attendees</h2>
-
-    <table className="w-full border-collapse">
-      <thead>
-        <tr>
-          <th className='border px-4 py-2'>Name</th>
-          <th className='border px-4 py-2'>Email</th>
-          <th className='border px-4 py-2'>Amount Paid</th>
-          <th className='border px-4 py-2'>Receipt</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {attendees.map((a, i) => (
-          <tr key={i}>
-            <td className='border px-4 py-2'>{a.firstname} {a.lastname}</td>
-            <td className='border px-4 py-2'>{a.email}</td>
-            <td className='border px-4 py-2'>{a.amount}</td>
-            <td className='border px-4 py-2'>{a.mpesareceiptnumber}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-)}
-
+  
        
     </div>
   )

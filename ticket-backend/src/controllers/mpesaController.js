@@ -3,7 +3,8 @@ const axios = require('axios');
 const pool = require('../db');
 const { getAccessToken } = require('../services/mpesaService');
 const { isValidUuid } = require('../utils/uuid');
-
+const { v4: uuidv4 } = require("uuid");
+const QRCode = require("qrcode")
 
 const stkPush = async (req,res) =>{
     try {
@@ -161,18 +162,22 @@ const mpesaCallback = async (req, res) => {
 
             const payment = paymentResult.rows[0];
 
+            const verificationCode = uuidv4();
+
             await pool.query(
                 `INSERT INTO tickets
                 (
                     user_id,
                     event_id,
-                    quantity
+                    quantity,
+                    verification_code
                 )
-                VALUES ($1, $2, $3)`,
+                VALUES ($1, $2, $3, $4)`,
                 [
                     payment.user_id,
                     payment.event_id,
                     1,
+                    verificationCode
                 ]
             );
 
@@ -234,6 +239,68 @@ const getPaymentStatus = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch payment status' });
     }
 };
+
+
+const verifyTicket = async (req,res) => {
+    try {
+
+        const { verificationCode } = req.body;
+
+        const result = await pool.query(
+            `SELECT
+                t.*,
+                u.firstname,
+                u.lastname,
+                e.eventname
+            FROM tickets t
+            JOIN users u ON u.id = t.user_id
+            JOIN events e ON e.id = t.event_id
+            WHERE t.verification_code = $1    
+            `,
+            [verificationCode]
+        );
+
+        if (!result.rows.length) {
+            return res.status(404).json({
+                valid: false,
+                message: "Invalid ticket"
+            });
+        }
+
+        const ticket = result.rows[0];
+
+        if (ticket.checked_in) {
+            return res.status(400).json({
+                valid: false,
+                message: "Ticket already used"
+            });
+        }
+
+        await pool.query(
+            `UPDATE tickets
+             SET checked_in = TRUE,
+                 checked_in_at = NOW()
+            WHERE id = $1        
+            `,
+            [ticket.id]
+        );
+
+        res.json({
+            valid: true,
+            attendee: `${ticket.firstname} ${ticket.lastname}`,
+            event: ticket.eventname
+        });
+    } catch(error){
+        console.error(error);
+        res.status(500).json({
+            message: "Verification failed"
+        })
+    }
+}
+
+// const qrCodeImage = await QRCode.toDataURL(
+//     verificationCode
+// );
 
 const getOrganizerBookings = async (req, res) => {
     try {
@@ -339,4 +406,4 @@ const getEventBookingsDetails = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch attendees" });
   }
 };
-module.exports = { stkPush, mpesaCallback, getPaymentStatus, getOrganizerBookings, getOrganizerBookingsSummary, getEventBookingsDetails };
+module.exports = { stkPush, mpesaCallback, getPaymentStatus, getOrganizerBookings, getOrganizerBookingsSummary, getEventBookingsDetails, verifyTicket };
