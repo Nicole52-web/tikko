@@ -63,7 +63,7 @@ const Footer = () => {
               <ul className="space-y-2 flex-1">
                 <li>
                   <a
-                    href="#"
+                    href="/contact-us"
                     className="text-white text-decoration-none hover:no-underline hover:text-blue-100 transition duration-200"
                   >
                     Help
@@ -87,28 +87,32 @@ const Footer = () => {
                 </li>
               </ul>
 
+
+
+              
+
               {/* Social Icons */}
               <div className="flex justify-end space-x-5 text-2xl text-white flex-none pt-1">
                 <a
-                  href="#"
+                  href="/contact-us"
                   className="text-white hover:text-blue-100 transition transform hover:scale-110"
                 >
                   <IoLogoInstagram />
                 </a>
                 <a
-                  href="#"
+                  href="/contact-us"
                   className="text-white hover:text-blue-100 transition transform hover:scale-110"
                 >
                   <FaTiktok />
                 </a>
                 <a
-                  href="#"
+                  href="/contact-us"
                   className="text-white hover:text-blue-100 transition transform hover:scale-110"
                 >
                   <FaXTwitter />
                 </a>
                 <a
-                  href="#"
+                  href="/contact-us"
                   className="text-white hover:text-blue-100 transition transform hover:scale-110"
                 >
                   <FaFacebookF />
