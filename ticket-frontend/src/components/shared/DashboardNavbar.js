@@ -41,7 +41,7 @@ const DashboardNavbar = () => {
           <div className="absolute right-0 mt-2 w-48 bg-white text-gray-700 rounded-lg shadow-lg border border-gray-100 animate-fadeIn">
             <Link
               to="/dashboard/profile"
-              className="block px-4 py-2 hover:bg-blue-50 rounded-t-lg"
+              className="block px-4 py-2 hover:bg-blue-50 rounded-t-lg text-decoration-none"
               onClick={() => setOpen(false)}
             >
               Profile Settings

@@ -1,49 +1,85 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import LogoTicket from "../assests/logoticket.png";
 
 const Navbar = () => {
+  const { user, logout } = useContext(AuthContext);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinkClassName = ({ isActive }) => `nav-link text-white${isActive ? " active" : ""}`;
+
   return (
-    <nav className="absolute top-0 left-0 w-full z-50 bg-white">
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-5">
+    <nav className="navbar navbar-expand-md navbar-light bg-blue-700 shadow-sm fixed-top">
+      <div className="container-fluid px-3">
+        <Link to="/" className="navbar-brand fw-bold text-white d-flex align-items-center gap-2">
+          <img
+            src={LogoTicket}
+            alt="Tikko"
+            className="navbar-logo d-inline-block object-contain"
+          />
+          Tikko
+        </Link>
 
-        {/* Logo */}
-        <div className="text-2xl font-extrabold tracking-wide text-blue">
-          <Link to="/">Tikko</Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded={mobileOpen ? "true" : "false"}
+          onClick={() => setMobileOpen((v) => !v)}
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
+
+        <div className={`collapse navbar-collapse justify-content-end${mobileOpen ? " show" : ""}`}>
+          <ul className="navbar-nav mb-2 mb-md-0">
+            <li className="nav-item font-weight-bold">
+              <NavLink to="/events" className={navLinkClassName} onClick={() => setMobileOpen(false)}>
+                Events
+              </NavLink>
+            </li>
+            <li className="nav-item font-weight-bold">
+              <NavLink to="/faqs" className={navLinkClassName} onClick={() => setMobileOpen(false)}>
+                FAQs
+              </NavLink>
+            </li>
+          </ul>
+
+          <div className="d-flex align-items-center gap-2 ms-md-3">
+            {!user ? (
+              <>
+                <Link to="/signin" className="nav-link text-white px-2" onClick={() => setMobileOpen(false)}>
+                  Sign In
+                </Link>
+                <Link to="/signup" className="nav-link text-white px-2" onClick={() => setMobileOpen(false)}>
+                  Sign Up
+                </Link>
+                <Link to="/contact-us" className="btn btn-secondary ms-2" onClick={() => setMobileOpen(false)}>
+                  Contact Us
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/dashboard" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
+                  Dashboard
+                </Link>
+                <Link to="/contact-us" className="btn btn-secondary" onClick={() => setMobileOpen(false)}>
+                  Contact Us
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => {
+                    logout();
+                    setMobileOpen(false);
+                  }}
+                >
+                  Logout
+                </button>
+              </>
+            )}
+          </div>
         </div>
-
-        {/* Nav links */}
-        <ul className="hidden md:flex items-center space-x-10 text-blue font-medium">
-          <li>
-            <Link to="/" className="px-8 hover:text-blue-200">Events</Link>
-          </li>
-          <li>
-            <Link to="/faqs" className="px-8 hover:text-blue-200">FAQs</Link>
-          </li>
-          <li>
-            <Link 
-              to="/signin" 
-              className="px-8 py-2 border border-white rounded-lg hover:bg-blue hover:text-blue-600 transition"
-            >
-              Sign In
-            </Link>
-          </li>
-          <li>
-            <Link 
-              to="/signup" 
-              className="px-8 py-2 border border-blue rounded-lg hover:bg-blue hover:text-blue-600 transition"
-            >
-              Sign Up
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/dashboard"
-              className="px-5 py-2 bg-blue-500 text-blue rounded-lg hover:bg-blue-600 transition"
-            >
-              Get Started
-            </Link>
-          </li>
-        </ul>
       </div>
     </nav>
   );

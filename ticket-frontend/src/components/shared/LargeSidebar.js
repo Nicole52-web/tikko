@@ -3,16 +3,21 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import {
   FaUser,
-  FaGlassCheers
+  FaGlassCheers,
+  FaQrcode
 } from "react-icons/fa";
 import { CgLogOut } from "react-icons/cg";
 import { PiUserFill } from "react-icons/pi";
 import { LuTicketCheck } from "react-icons/lu";
+import { TbChecklist } from "react-icons/tb";
+import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { RiFileHistoryFill, RiRefund2Line, RiFunctionAddFill } from "react-icons/ri";
 
 const LargeSidebar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const role = user?.role;
 
   const handleLogout = () => {
     logout();
@@ -37,7 +42,7 @@ const LargeSidebar = () => {
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
+              `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
                 isActive
                   ? "bg-blue-600 text-white"
                   : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
@@ -47,70 +52,125 @@ const LargeSidebar = () => {
             <PiUserFill className="text-xl" /> Profile
           </NavLink>
 
-          <NavLink
-            to="/dashboard/book-ticket"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-              }`
-            }
-          >
-            <LuTicketCheck className="text-xl" /> Book Ticket
-          </NavLink>
 
-          <NavLink
-            to="/dashboard/post-event"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-              }`
-            }
-          >
-            <RiFunctionAddFill className="text-xl" /> Post Event
-          </NavLink>
+          {/* APPLICANT LINKS */}
+  {role === "applicant" && (
+    <>
+      <NavLink
+        to="/dashboard/book-ticket"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <LuTicketCheck className="text-xl" /> Book Ticket
+      </NavLink>
 
-          <NavLink
-            to="/dashboard/events"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-              }`
-            }
-          >
-            <FaGlassCheers className="text-xl" /> My Events
-          </NavLink>
+      <NavLink
+        to="/dashboard/my-tickets"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <TbChecklist className="text-xl" /> My Tickets
+      </NavLink>
 
-          <NavLink
-            to="/dashboard/history"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-              }`
-            }
-          >
-            <RiFileHistoryFill className="text-xl" /> History
-          </NavLink>
+      <NavLink
+        to="/dashboard/history"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <RiFileHistoryFill className="text-xl" /> History
+      </NavLink>
 
-          <NavLink
-            to="/dashboard/refund"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg transition ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-              }`
-            }
-          >
-            <RiRefund2Line className="text-xl" /> Refund
-          </NavLink>
+      <NavLink
+        to="/dashboard/refund"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <RiRefund2Line className="text-xl" /> Refund
+      </NavLink>
+    </>
+  )}
+
+  {/* ORGANIZER LINKS */}
+  {role === "organizer" && (
+    <>
+    <NavLink to="/dashboard/analytics" className={({ isActive }) =>
+      `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+        isActive
+          ? "bg-blue-600 text-white"
+          : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+      }`
+    }>
+      <TbDeviceDesktopAnalytics className="text-xl" /> Analytics
+    </NavLink>
+      <NavLink
+        to="/dashboard/post-event"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <RiFunctionAddFill className="text-xl" /> Post Event
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/events"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+            isActive
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+          }`
+        }
+      >
+        <FaGlassCheers className="text-xl" /> My Events
+      </NavLink>
+
+      <NavLink to="/dashboard/booked-events" className={({ isActive }) =>
+        `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+          isActive
+            ? "bg-blue-600 text-white"
+            : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+        }`
+      }>
+        <TbChecklist className="text-xl" /> Booked Events
+      </NavLink>
+
+      <NavLink to="/dashboard/scan" className={({ isActive }) =>
+        `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+          isActive
+            ? "bg-blue-600 text-white"
+            : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+        }`
+      }>
+        <FaQrcode className="text-xl" /> Scan Tickets
+      </NavLink>
+    </>
+  )}
+
+          
         </nav>
       </div>
 

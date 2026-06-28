@@ -1,0 +1,46 @@
+version: '5.1.1'
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: ticket_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ticket_db
+    ports:
+      - "5432:5432"
+    volumes:
+       - postgres_data:/var/lib/postgresql/data
+       - ./ticket-backend/sql/schema-uuid.sql:/docker-entrypoint-initdb.d/01-schema-uuid.sql
+  ticket-backend:
+    build: ./ticket-backend
+    container_name: ticket_backend
+    restart: always
+    ports:
+      - "5000:5000"
+
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: ticket_db
+      DB_PORT: 5432
+    depends_on:
+      - postgres
+
+  ticket-frontend:
+    build: ./ticket-frontend
+    container_name: ticket_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true  
+    depends_on:
+      - ticket-backend    
+
+volumes:
+  postgres_data:  
+     

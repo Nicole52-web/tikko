@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/shared/loader/Loader";
+// import { useToast } from "../context/ToastContext";
+import AuthBackgroundCarousel from "../components/AuthBackgroundCarousel";
+import Footer from "../components/Footer";
+import { toast } from 'react-toastify';
 
 const SignUp = () => {
+  // const { showToast } = useToast();
+  const [role, setRole] = useState("applicant");
   const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -19,37 +25,40 @@ const SignUp = () => {
       const response = await axios.post(
         "http://localhost:5000/api/v1/User/createuser",
         {
-          firstName,
-          lastName,
+          firstName: firstName,
+          lastName: lastName,
           email,
           password,
+          role,
         }
       );
 
       if (response.status === 200) {
-        console.log("User Created Successfully");
+        toast.success("Account created successfully. Please sign in.", "success");
         navigate("/signin");
       } else {
         throw new Error("Unexpected Error");
       }
     } catch (error) {
-      alert("Failed to create account. Try again.");
+      toast.error("Failed to create account. Try again.", "error");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-200 relative">
+   <div>
+ <div className="relative flex justify-center items-center min-h-screen overflow-hidden pb-12 px-4" style={{ paddingTop: 120, paddingBottom: 120 }}>
+      <AuthBackgroundCarousel />
       {/* Overlay Loader */}
       {loading && (
-        <div className="absolute inset-0 bg-white/70 flex justify-center items-center z-10">
+        <div className="absolute inset-0 bg-white/70 flex justify-center items-center z-30">
           <Loader />
         </div>
       )}
 
       <div
-        className={`bg-white shadow-lg rounded-2xl p-8 w-full max-w-md text-center transition-all duration-300 ${
+        className={`relative z-20 bg-white shadow-lg rounded-2xl p-8 w-full max-w-md text-center transition-all duration-300 ${
           loading ? "opacity-60 pointer-events-none" : "opacity-100"
         }`}
       >
@@ -70,7 +79,7 @@ const SignUp = () => {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             disabled={loading}
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+            className="w-full px-4 py-2 mb-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
           />
           <input
             id="lastName"
@@ -81,7 +90,7 @@ const SignUp = () => {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             disabled={loading}
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+            className="w-full px-4 py-2 mb-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
           />
           <input
             id="email"
@@ -92,7 +101,7 @@ const SignUp = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+            className="w-full px-4 py-2 mb-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
           />
           <input
             id="password"
@@ -103,12 +112,30 @@ const SignUp = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={loading}
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+            className="w-full px-4 py-2 mb-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition"
           />
+          <div className="flex items-center gap-2 justify-start">
+            <input
+            type="checkbox"
+            id="organizer"
+            checked={ role === "organizer"}
+            onChange={(e) => 
+              setRole(e.target.checked ? "organizer" : "applicant")
+            }
+            disabled={loading}
+            className="w-4 h-4 text-blue-600"
+            />
+            <label htmlFor="organizer" className="text-gray-700 text-sm cursor-pointer">
+              Sign up as an <span className="font-semibold">Event Organizer</span>
+            </label>
+
+             
+  
+          </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-xl hover:bg-blue-700 transition disabled:opacity-50"
+            className="w-50 bg-blue-600 text-white font-semibold py-2 rounded-4 hover:bg-blue-700 transition disabled:opacity-50"
             disabled={loading}
           >
             {loading ? "Signing Up..." : "Sign Up"}
@@ -126,6 +153,10 @@ const SignUp = () => {
         </p>
       </div>
     </div>
+    <Footer/>
+   </div>
+
+  
   );
 };
 

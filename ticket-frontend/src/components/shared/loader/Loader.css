@@ -23,7 +23,7 @@
 .loader::before {
   top: auto;
   bottom: 0;
-  background-color: #4f59e4;
+  background-color: var(--app-primary);
   animation-delay: 0.5s;
 }
 
