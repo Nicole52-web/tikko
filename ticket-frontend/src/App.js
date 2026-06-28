@@ -24,6 +24,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BookedEvents from "./pages/BookedEvents";
 import BookingDetails from "./pages/BookingDetails";
+import ScanTicket from "./pages/ScanTicket";
 
 function AppContent() {
   const location = useLocation();
@@ -58,6 +59,7 @@ function AppContent() {
           <Route path="my-tickets" element={<MyTickets />} />
           <Route path="payment/success/:ticketId" element={<PaymentSuccess />} />
           <Route path="payment/:eventId" element={<Payment />} />
+          <Route path="scan" element={<ScanTicket />} />
           <Route path="booked-events" element={<BookedEvents />} />
           <Route path="booking-details/:eventId" element={<BookingDetails/>}/>
         </Route>

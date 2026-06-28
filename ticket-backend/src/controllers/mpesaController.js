@@ -3,7 +3,7 @@ const axios = require('axios');
 const pool = require('../db');
 const { getAccessToken } = require('../services/mpesaService');
 const { isValidUuid } = require('../utils/uuid');
-const { v4: uuidv4 } = require("uuid");
+const crypto = require("crypto");
 const QRCode = require("qrcode")
 
 const stkPush = async (req,res) =>{
@@ -162,7 +162,7 @@ const mpesaCallback = async (req, res) => {
 
             const payment = paymentResult.rows[0];
 
-            const verificationCode = uuidv4();
+            const verificationCode = crypto.randomUUID();
 
             await pool.query(
                 `INSERT INTO tickets
@@ -406,4 +406,6 @@ const getEventBookingsDetails = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch attendees" });
   }
 };
+
+
 module.exports = { stkPush, mpesaCallback, getPaymentStatus, getOrganizerBookings, getOrganizerBookingsSummary, getEventBookingsDetails, verifyTicket };

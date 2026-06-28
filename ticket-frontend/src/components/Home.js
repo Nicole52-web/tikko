@@ -8,6 +8,7 @@ import Loader from "./shared/loader/Loader";
 import { useToast } from "../context/ToastContext";
 import { AuthContext } from "../context/AuthContext";
 import { apiUrl, mediaUrl } from "../config/api";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [events, setEvents] = useState([]);
@@ -23,7 +24,7 @@ const Home = () => {
   });
 
   const navigate = useNavigate();
-  const { showToast } = useToast();
+  // const { showToast } = useToast();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -40,14 +41,14 @@ const Home = () => {
         setEvents(eventData);
       } catch (error) {
         console.error("Error fetching events:", error);
-        showToast("Failed to load events.", "error");
+        toast.error("Failed to load events.", "error");
       } finally {
         setLoading(false);
       }
     };
 
     fetchEvents();
-  }, [showToast]);
+  },toast);
 
   const categories = useMemo(() => {
     const unique = new Set();
@@ -398,7 +399,7 @@ const Home = () => {
                               } else if (user.role === "applicant") {
                                 navigate(`/dashboard/payment/${event.id}`, { state: { event } });
                               } else {
-                                showToast("Only applicants can book tickets.", "info");
+                                toast.info("Only applicants can book tickets.", "info");
                               }
                             }}
                           >

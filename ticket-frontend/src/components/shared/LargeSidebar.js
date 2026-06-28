@@ -3,7 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import {
   FaUser,
-  FaGlassCheers
+  FaGlassCheers,
+  FaQrcode
 } from "react-icons/fa";
 import { CgLogOut } from "react-icons/cg";
 import { PiUserFill } from "react-icons/pi";
@@ -155,6 +156,16 @@ const LargeSidebar = () => {
         }`
       }>
         <TbChecklist className="text-xl" /> Booked Events
+      </NavLink>
+
+      <NavLink to="/dashboard/scan" className={({ isActive }) =>
+        `flex items-center gap-3 px-4 py-2 rounded-lg transition text-decoration-none ${
+          isActive
+            ? "bg-blue-600 text-white"
+            : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+        }`
+      }>
+        <FaQrcode className="text-xl" /> Scan Tickets
       </NavLink>
     </>
   )}
