@@ -51,7 +51,7 @@ const Events = () => {
       }
     };
     if (token) fetchEvents();
-  }, [token, toast]);
+  }, [token]);
 
   if (loading) {
     return (

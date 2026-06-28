@@ -1,11 +1,10 @@
-﻿import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import HomeImage from "../assests/home2.png";
 import Footer from "./Footer";
 import Loader from "./shared/loader/Loader";
-import { useToast } from "../context/ToastContext";
 import { AuthContext } from "../context/AuthContext";
 import { apiUrl, mediaUrl } from "../config/api";
 import { toast } from "react-toastify";
@@ -24,7 +23,7 @@ const Home = () => {
   });
 
   const navigate = useNavigate();
-  // const { showToast } = useToast();
+ 
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -41,14 +40,14 @@ const Home = () => {
         setEvents(eventData);
       } catch (error) {
         console.error("Error fetching events:", error);
-        toast.error("Failed to load events.", "error");
+        toast.error("Failed to load events.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchEvents();
-  },toast);
+  },[]);
 
   const categories = useMemo(() => {
     const unique = new Set();
@@ -399,7 +398,7 @@ const Home = () => {
                               } else if (user.role === "applicant") {
                                 navigate(`/dashboard/payment/${event.id}`, { state: { event } });
                               } else {
-                                toast.info("Only applicants can book tickets.", "info");
+                                toast.info("Only applicants can book tickets.");
                               }
                             }}
                           >

@@ -3,13 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/shared/loader/Loader";
-// import { useToast } from "../context/ToastContext";
 import { apiUrl, mediaUrl } from "../config/api";
 import {toast} from 'react-toastify';
 
 const BookTicket = () => {
-  const { token, user } = useContext(AuthContext);
-  // const { showToast } = useToast();
+  const { user } = useContext(AuthContext);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -35,7 +33,7 @@ const BookTicket = () => {
     };
 
     fetchEvents();
-  }, [toast]);
+  }, []);
 
   const handleGoToPayment = (event) => {
     if (!user || user.role !== "applicant") {

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Footer from "../components/Footer";
 import ContactImage from "../assests/contact.svg";
 
 
 const Contact = () => {
-    const [loading, setLoading ] = useState(false);
+    const loading = false;
 
     return(
         <div>
