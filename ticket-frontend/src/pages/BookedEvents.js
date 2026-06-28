@@ -6,11 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const BookedEvents = () => {
     const { token} = useContext(AuthContext);
-    const [tickets, setTickets] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [events, setEvents] = useState([]);
-    const [attendees, setAttendees] = useState([]);
-    const [selectedEvent, setSelectedEvent] = useState(null);
     const [searchTerm, setSearchTerm] = useState("")
     const navigate = useNavigate();
 
@@ -27,26 +23,26 @@ const BookedEvents = () => {
   };
 
   fetchEvents();
-}, []);
+}, [token]);
 
 
-const viewDetails = async (eventId) => {
+// const viewDetails = async (eventId) => {
 
-  if (selectedEvent === eventId) {
-    setSelectedEvent(null);
-    setAttendees([]);
-    return;
-  }
-  const res = await axios.get(
-    apiUrl(`/api/v1/payments/organizer/event/${eventId}`),
-    {
-      headers: { Authorization: `Bearer ${token}` }
-    }
-  );
+//   if (selectedEvent === eventId) {
+//     setSelectedEvent(null);
+//     setAttendees([]);
+//     return;
+//   }
+//   const res = await axios.get(
+//     apiUrl(`/api/v1/payments/organizer/event/${eventId}`),
+//     {
+//       headers: { Authorization: `Bearer ${token}` }
+//     }
+//   );
 
-  setAttendees(res.data.attendees);
-  setSelectedEvent(eventId);
-};
+//   setAttendees(res.data.attendees);
+//   setSelectedEvent(eventId);
+// };
 
 
 const filteredEvents =  events.filter((event) => {
@@ -107,9 +103,14 @@ const filteredEvents =  events.filter((event) => {
       </td>
 
       <td className="border px-4 py-2">
-        <button onClick={() => navigate(`/dashboard/booking-details/${event.event_id}`)} className='bg-blue-600 hover:bg-blue-700 rounded-3 py-2 px-4 text-white' >
-         { selectedEvent === event.event_id ? "Close" : "View"}
-        </button>
+     <button
+  onClick={() =>
+    navigate(`/dashboard/booking-details/${event.event_id}`)
+  }
+  className="bg-blue-600 hover:bg-blue-700 rounded-3 py-2 px-4 text-white"
+>
+  View
+</button>
       </td>
     </tr>
   ))}

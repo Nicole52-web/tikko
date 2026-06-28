@@ -48,7 +48,7 @@ const PublicEvents = () => {
     };
 
     fetchEvents();
-  }, [toast]);
+  }, []);
 
   const categories = useMemo(() => {
     const unique = new Set();

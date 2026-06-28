@@ -50,7 +50,7 @@ const EventDetails = () => {
     };
 
     fetchEvent();
-  }, [id, token, toast]);
+  }, [id, token]);
 
   const handleGoToPayment = () => {
     if (!user || user.role !== "applicant") {
