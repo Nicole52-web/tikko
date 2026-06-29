@@ -1,8 +1,3 @@
-/**
- * Backend base URL. Leave unset in development to use same-origin requests
- * (CRA "proxy" in package.json forwards /api and /uploads to the API server).
- * Set REACT_APP_API_URL in production, e.g. https://api.example.com
- */
 const raw = process.env.REACT_APP_API_URL;
 export const API_BASE = raw ? String(raw).replace(/\/$/, "") : "";
 
