@@ -7,6 +7,7 @@ import Loader from "../components/shared/loader/Loader";
 import AuthBackgroundCarousel from "../components/AuthBackgroundCarousel";
 import Footer from "../components/Footer";
 import { toast } from 'react-toastify';
+import { apiUrl } from "../config/api";
 
 
 const SignIn = () => {
@@ -22,7 +23,7 @@ const SignIn = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/v1/User/login", {
+      const res = await axios.post(apiUrl("/api/v1/User/login"), {
         email,
         password,
       });
