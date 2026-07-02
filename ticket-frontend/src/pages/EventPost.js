@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 import {toast} from 'react-toastify';
-
+import { apiUrl } from "../config/api";
 
 
 const EventPost = () => {
@@ -50,8 +50,8 @@ const EventPost = () => {
       });
 
       
-    const res = await axios.post(
-  "http://localhost:5000/api/v1/Event/create-event",
+    const res = await axios.post(apiUrl
+  ("/api/v1/Event/create-event"),
   data,
   {
     headers: {

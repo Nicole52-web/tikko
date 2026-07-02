@@ -26,7 +26,8 @@ const handleCreateEvent = async (req, res) => {
 
     const userId = req.user.id;
 
-    const posterFile = req.file ? `/uploads/${req.file.filename}` : null;
+    // const posterFile = req.file ? `/uploads/${req.file.filename}` : null;
+    const posterFile = req.file ? req.file.path : null;
 
     if (!posterFile) {
       return res.status(400).json({ message: "Poster image is required" });
@@ -97,7 +98,9 @@ const handleUpdateEvent = async (req, res) => {
     const existing = await getEventById(id);
     if (!existing) return res.status(404).json({ message: "Event not found" });
 
-    const posterFile = req.file ? `/uploads/${req.file.filename}` : existing.posterfile;
+    // const posterFile = req.file ? `/uploads/${req.file.filename}` : existing.posterfile;
+    const posterFile = req.file ? req.file.path : existing.posterfile;
+
 
     const updated = await updateEvent(id, {
       eventName: req.body.eventName ?? existing.eventname,
