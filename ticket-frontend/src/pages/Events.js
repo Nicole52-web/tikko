@@ -5,6 +5,7 @@ import {AuthContext} from "../context/AuthContext";
 // import { useToast } from "../context/ToastContext";
 import Loader from "../components/shared/loader/Loader";
 import {toast} from 'react-toastify';
+import { apiUrl } from "../config/api";
 
 
 const Events = () => {
@@ -20,7 +21,7 @@ const Events = () => {
     if (!confirmed) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/v1/Event/${id}`, {
+      await axios.delete(apiUrl(`http://localhost:5000/api/v1/Event/${id}`), {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEvents((prev) => prev.filter((ev) => ev.id !== id));
@@ -34,7 +35,7 @@ const Events = () => {
     const fetchEvents = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:5000/api/v1/Event/my-events",
+        const res = await axios.get(apiUrl("http://localhost:5000/api/v1/Event/my-events"),
           {
             headers:{
               Authorization:`Bearer ${token}`

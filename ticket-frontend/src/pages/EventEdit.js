@@ -5,6 +5,8 @@ import { AuthContext } from "../context/AuthContext";
 import Loader from "../components/shared/loader/Loader";
 // import { useToast } from "../context/ToastContext";
 import {toast} from 'react-toastify';
+import { apiUrl } from "../config/api";
+
 
 const EventEdit = () => {
   const { id } = useParams();
@@ -29,7 +31,7 @@ const EventEdit = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/v1/Event/my-event/${id}`, {
+        const res = await axios.get(apiUrl(`/api/v1/Event/my-event/${id}`), {
           headers: { Authorization: `Bearer ${token}` },
         });
         const ev = res.data?.event ?? res.data;

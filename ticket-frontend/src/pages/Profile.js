@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 // import { useToast } from "../context/ToastContext";
 import {toast} from 'react-toastify';
+import { apiUrl } from "../config/api";
 
 const Profile = () => {
   const { user, token } = useContext(AuthContext);
@@ -26,7 +27,7 @@ const Profile = () => {
     setLoading(true);
     try {
       await axios.put(
-        "http://localhost:5000/api/v1/User/update",
+        apiUrl("/api/v1/User/update"),
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );

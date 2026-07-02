@@ -6,6 +6,7 @@ import Loader from "../components/shared/loader/Loader";
 import AuthBackgroundCarousel from "../components/AuthBackgroundCarousel";
 import Footer from "../components/Footer";
 import { toast } from 'react-toastify';
+import { apiUrl } from "../config/api";
 
 const SignUp = () => {
   // const { showToast } = useToast();
@@ -22,8 +23,8 @@ const SignUp = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/User/createuser",
+      const response = await axios.post(apiUrl
+        ("/api/v1/User/createuser"),
         {
           firstName: firstName,
           lastName: lastName,
